@@ -27,21 +27,45 @@
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">1</span>
+                    <span class="badge bg-green"><?php echo $count; ?></span>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    
+                    <?php
+                      
+                      $sql = 
+                      "SELECT aih.invoice_num , 
+                       aih.invoice_type_lookup_code,
+                       aih.creation_date
+                       FROM ap_invoices_header aih
+                       WHERE created_by = '".$employee_id."'
+                       and status = 'P'
+                       limit 5";
+                  
+                        $result = $conn_php->query($sql);
+                        while($row = $result->fetch_assoc()) {
+                        $creation_date = strtotime($row["creation_date"]);
+                    ?>
+
                     <li>
                       <a>
                         <span class="image"><img src="images/user.png" alt="Profile Image" /></span>
                         <span>
                           <span><?php echo $user_check ?></span>
-                          <span class="time">3 mins ago</span>
+                          <span class="time"> <?php echo round(abs($today - $creation_date) / 60/60,2); ?> Hours ago</span>
                         </span>
                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                          <?php echo "Need Approval "; echo $row["invoice_type_lookup_code"]; echo " : "; echo $row["invoice_num"]; ?>
                         </span>
                       </a>
                     </li>
+                    
+                    <?php
+                    
+                    }
+                    
+                    ?>
+                    
                     <li>
                       <div class="text-center">
                         <a>

@@ -3,7 +3,7 @@ session_start();
 include("controller/doconnect_php.php");
 include("controller/session.php");
 include("controller/doconnect.php");   
-include("query/cek_divisi.php");   
+include("query/cek_employee.php");   
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
@@ -17,6 +17,8 @@ $_SESSION['form_token'] = $form_token;
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <?php include("view/title.php"); ?>
 
     <!-- Toastr -->
     <link rel="stylesheet" href="../vendors/toastr/toastr.min.css">
@@ -40,7 +42,7 @@ $_SESSION['form_token'] = $form_token;
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="form_ap.php" class="site_title"><i class="fa fa-paw"></i> <span> CBA </span></a>
+              <?php include("view/home.php"); ?>
             </div>
 
             <div class="clearfix"></div>
@@ -50,8 +52,20 @@ $_SESSION['form_token'] = $form_token;
             <!-- /menu profile quick info -->
             <br />
 
-            <!-- sidebar menu -->
-            <?php include("view/side_bar.php"); ?>
+            <!-- sidebar menu -->     
+            <?php
+              if ($_SESSION['userRole'] == "Staff"){
+                session_destroy(); 
+
+                session_start();
+                $logout = true;
+                $_SESSION['logout'] = $logout;
+                
+                header("location: login.php"); 
+              } else if ($_SESSION['userRole'] == "Admin") {
+                include("view/side_bar.php");
+              }
+            ?>
             <!-- /sidebar menu -->
 
           </div>
@@ -146,31 +160,6 @@ $_SESSION['form_token'] = $form_token;
                                   </span>
                               </div>
                           </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-12 col-sm-12 col-xs-12" align="center">
-                        <div class="form-group">
-                          <h4>
-                          <?php
-                            $err = "";
-                            if(isset($_GET['err'])){
-                              $err = $_GET['err'];
-                            }
-                            if($err != ""){
-                              if($err === "1")
-                              {
-                                echo "All fields must be filled";
-                              }
-                              else if($err==='2'){
-                                echo "You have successfully recorded your transaction";
-                              }
-                              else if($err==='3'){
-                                echo "Product stock is not sufficient";
-                              }
-                            }
-                          ?>
-                          </h4>
                         </div>
                       </div>
                       
@@ -281,47 +270,49 @@ $_SESSION['form_token'] = $form_token;
 	
     <script type="text/javascript">
 
-function myDeleteFunction() {
-    document.getElementById("myTable").deleteRow(1);
-}
+    $("#myDatepicker2").on("dp.keydown keypress keyup", false);
 
-function deleteRow(row) {
-  var i = row.parentNode.parentNode.rowIndex;
-  document.getElementById('myTable').deleteRow(i);
-}
+    function myDeleteFunction() {
+        document.getElementById("myTable").deleteRow(1);
+    }
 
-
-
-function myCreateFunction() {
-    var table = document.getElementById("myTable");
-    var row = table.insertRow(1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    
-    cell1.innerHTML = '<td><input type="hidden" class="itemcoun" name="COUNTER[]" id="COUNTER">#</td>';
-    cell2.innerHTML = '<td><select class="form-control itemdesc" id="DISTRIBUTION_SET_ID" name="DISTRIBUTION_SET_ID[]" required="required"><?php $sql = "SELECT adsa.distribution_set_id AS DISTRIBUTION_SET_ID, 
-                    adsa.description AS DESCRIPTION
-                    FROM ap_distribution_sets adsa,
-                    AP_DISTRIBUTION_SET_LINES  adsl,
-                    gl_code_combinations_kfv gcc
-                    WHERE
-                    adsa.distribution_set_id = adsl.distribution_set_id
-                    AND adsl.dist_code_combination_id = gcc.code_combination_id
-                    AND adsa.description LIKE '%Biaya%'";                                 
-                    $result = oci_parse($conn,$sql);
-                    oci_execute($result);
-                    while($row = oci_fetch_array($result, OCI_ASSOC)) {
-                    ?><option value="<?php echo $row["DISTRIBUTION_SET_ID"] ?>">                                  <?php echo $row["DESCRIPTION"] ?></option><?php } ?> </select> </td>';
-    cell3.innerHTML = '<td><input type="text" class="form-control itemamo" id="AMOUNT" name="AMOUNT[]" required="required" autocomplete="off"></td>';
-    cell4.innerHTML = '<td><button class="btn btn-danger" type="button" onclick="deleteRow(this);"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></td>';
-}
+    function deleteRow(row) {
+      var i = row.parentNode.parentNode.rowIndex;
+      document.getElementById('myTable').deleteRow(i);
+    }
 
 
-    $('#myDatepicker2').datetimepicker({
-        format: 'YYYY/MM/DD'
-    });
+
+    function myCreateFunction() {
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        
+        cell1.innerHTML = '<td><input type="hidden" class="itemcoun" name="COUNTER[]" id="COUNTER">#</td>';
+        cell2.innerHTML = '<td><select class="form-control itemdesc" id="DISTRIBUTION_SET_ID" name="DISTRIBUTION_SET_ID[]" required="required"><?php $sql = "SELECT adsa.distribution_set_id AS DISTRIBUTION_SET_ID, 
+                        adsa.description AS DESCRIPTION
+                        FROM ap_distribution_sets adsa,
+                        AP_DISTRIBUTION_SET_LINES  adsl,
+                        gl_code_combinations_kfv gcc
+                        WHERE
+                        adsa.distribution_set_id = adsl.distribution_set_id
+                        AND adsl.dist_code_combination_id = gcc.code_combination_id
+                        AND adsa.description LIKE '%Biaya%'";                                 
+                        $result = oci_parse($conn,$sql);
+                        oci_execute($result);
+                        while($row = oci_fetch_array($result, OCI_ASSOC)) {
+                        ?><option value="<?php echo $row["DISTRIBUTION_SET_ID"] ?>">                                  <?php echo $row["DESCRIPTION"] ?></option><?php } ?> </select> </td>';
+        cell3.innerHTML = '<td><input type="text" class="form-control itemamo" id="AMOUNT" name="AMOUNT[]" required="required" autocomplete="off"></td>';
+        cell4.innerHTML = '<td><button class="btn btn-danger" type="button" onclick="deleteRow(this);"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></td>';
+    }
+
+
+        $('#myDatepicker2').datetimepicker({
+            format: 'YYYY/MM/DD'
+        });
   
     </script>
 
