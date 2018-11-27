@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2018 at 10:15 AM
+-- Generation Time: Nov 27, 2018 at 10:10 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -48,17 +48,18 @@ CREATE TABLE `ap_invoices_header` (
   `LAST_UPDATED_BY` varchar(255) NOT NULL,
   `CREATION_DATE` date NOT NULL,
   `CREATED_BY` varchar(255) NOT NULL,
-  `STATUS` varchar(1) NOT NULL
+  `STATUS` varchar(1) NOT NULL,
+  `APPROVAL_DATE` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ap_invoices_header`
 --
 
-INSERT INTO `ap_invoices_header` (`INVOICE_ID`, `INVOICE_NUM`, `INVOICE_TYPE_LOOKUP_CODE`, `INVOICE_DATE`, `VENDOR_NAME`, `VENDOR_SITE_CODE`, `INVOICE_AMOUNT`, `INVOICE_CURRENCY_CODE`, `TERMS_NAME`, `SOURCE`, `GOODS_RECEIVED_DATE`, `INVOICE_RECEIVED_DATE`, `GL_DATE`, `ORG_ID`, `TERMS_DATE`, `LAST_UPDATE_DATE`, `LAST_UPDATED_BY`, `CREATION_DATE`, `CREATED_BY`, `STATUS`) VALUES
-(114348, '123123', 'EXPENSE REPORT', '2018-11-22', 'CBA EMPLOYEE', 'ANGGA', 123, 'IDR', '5 HARI', 'SALESFORCE', '2018-11-22', '2018-11-22', '2018-11-22', '81', '2018-11-22', '2018-11-22', '1154', '2018-11-22', '1154', 'P'),
-(114349, '123123123123123123', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ANDI SEDIO', 123, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-23', '1154', '2018-11-23', '1154', 'P'),
-(114350, '1344444', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ABDUL ROSYID', 45678, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-23', '1154', '2018-11-23', '1154', 'P');
+INSERT INTO `ap_invoices_header` (`INVOICE_ID`, `INVOICE_NUM`, `INVOICE_TYPE_LOOKUP_CODE`, `INVOICE_DATE`, `VENDOR_NAME`, `VENDOR_SITE_CODE`, `INVOICE_AMOUNT`, `INVOICE_CURRENCY_CODE`, `TERMS_NAME`, `SOURCE`, `GOODS_RECEIVED_DATE`, `INVOICE_RECEIVED_DATE`, `GL_DATE`, `ORG_ID`, `TERMS_DATE`, `LAST_UPDATE_DATE`, `LAST_UPDATED_BY`, `CREATION_DATE`, `CREATED_BY`, `STATUS`, `APPROVAL_DATE`) VALUES
+(114348, '123123', 'EXPENSE REPORT', '2018-11-22', 'CBA EMPLOYEE', 'ANGGA', 123, 'IDR', '5 HARI', 'SALESFORCE', '2018-11-22', '2018-11-22', '2018-11-22', '81', '2018-11-22', '2018-11-22', '1154', '2018-11-22', '2', 'P', '2018-11-23'),
+(114349, '123123123123123123', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ANDI SEDIO', 123, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-23', '1154', '2018-11-23', '2', 'P', '2018-11-23'),
+(114350, '1344444', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ABDUL ROSYID', 45678, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-23', '1154', '2018-11-23', '2', 'P', '2018-11-23');
 
 -- --------------------------------------------------------
 
@@ -102,16 +103,17 @@ CREATE TABLE `employee` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `divisi` varchar(255) NOT NULL,
-  `created_date` date NOT NULL
+  `created_date` date NOT NULL,
+  `role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`employee_id`, `name`, `password`, `email`, `divisi`, `created_date`) VALUES
-(2, 'asdasdasd', '7815696ecbf1c96e6894b779456d330e', 'asd@asd', 'asd', '2018-11-22'),
-(3, 'ben', '7815696ecbf1c96e6894b779456d330e', 'asd@asdasd', '207', '2018-11-23');
+INSERT INTO `employee` (`employee_id`, `name`, `password`, `email`, `divisi`, `created_date`, `role`) VALUES
+(2, 'asdasdasd', '7815696ecbf1c96e6894b779456d330e', 'asd@asd', 'asd', '2018-11-22', 'Staff'),
+(3, 'ben', '7815696ecbf1c96e6894b779456d330e', 'asd@asdasd', '207', '2018-11-23', 'Admin');
 
 --
 -- Indexes for dumped tables
