@@ -20,6 +20,7 @@ $(document).ready(function() {
           }
           else {
             toastr.error('Wrong Password or Username');
+            // console.log(response);
           }
         }
       });  

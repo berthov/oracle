@@ -33,9 +33,9 @@
 		    	'".$INVOICE_CURRENCY_CODE."',
 		    	'".$TERMS_NAME."',
 		        '".$LAST_UPDATE_DATE_L."',
-		    	'".$user_check."',
+		    	'".$employee_id."',
 		        '".$CREATION_DATE_L."',
-		    	'".$user_check."',
+		    	'".$employee_id."',
 		    	'".$SOURCE."',
 		    	'".$GOODS_RECEIVED_DATE_L."',
 		    	'".$INVOICE_RECEIVED_DATE_L."',
@@ -79,9 +79,9 @@
 		        '".$DESCRIPTION[$x]."',
 		        '".$DISTRIBUTION_SET_ID[$x]."',
 		        '".$CREATION_DATE_L."',
-		        '".$user_check."',
+		        '".$employee_id."',
 		        '".$LAST_UPDATE_DATE_L."',
-		        '".$user_check."')";
+		        '".$employee_id."')";
 
 		if (mysqli_query($conn_php, $sql_php)) {
 		    echo "New record created successfully";
