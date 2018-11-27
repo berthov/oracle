@@ -7,6 +7,8 @@
                       <li><a href="form_ap.php">Dashboard</a></li>
                     </ul>
                   </li>
+				  <li><a href="form_pending_req.php"><i class="fa fa-home"></i> Pending Request</a>
+					 </li>
                 </ul>
               </div>
             </div>
