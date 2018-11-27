@@ -3,7 +3,7 @@ session_start();
 include("controller/doconnect_php.php");
 include("controller/session.php");
 include("controller/doconnect.php");   
-include("query/cek_divisi.php");   
+include("query/cek_employee.php");   
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
@@ -87,7 +87,8 @@ $_SESSION['form_token'] = $form_token;
 													 aia.INVOICE_TYPE_LOOKUP_CODE as INVOICE_TYPE,
 													 emp.name as EMP_NAME,
 													 aia.INVOICE_AMOUNT as INVOICE_AMOUNT,
-													 aia.STATUS as STATUS
+													 aia.STATUS as STATUS,
+													 aia.INVOICE_ID as INVOICE_ID
 												FROM ap_invoices_header aia,
 													 employee emp
 												WHERE aia.CREATED_BY = emp.employee_id
@@ -110,7 +111,8 @@ $_SESSION['form_token'] = $form_token;
 														<td><?php echo $row["INVOICE_AMOUNT"];	?></td>
 														<td>''</td>
 														<td><?php echo $row["STATUS"];	?></td>
-														<td><button type="submit" class="btn btn-success">Approve</button>
+														<td><a href="controller/doupdatepending.php?id=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success">Approve</button></a>
+														
 														
 													<?php
 													
