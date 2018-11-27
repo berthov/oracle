@@ -55,13 +55,7 @@ $_SESSION['form_token'] = $form_token;
             <!-- sidebar menu -->     
             <?php
               if ($_SESSION['userRole'] == "Staff"){
-                session_destroy(); 
-
-                session_start();
-                $logout = true;
-                $_SESSION['logout'] = $logout;
-                
-                header("location: login.php"); 
+                include("view/side_bar_staff.php");
               } else if ($_SESSION['userRole'] == "Admin") {
                 include("view/side_bar.php");
               }
@@ -142,8 +136,9 @@ $_SESSION['form_token'] = $form_token;
                         <div class="col-md-7 col-sm-7 col-xs-12">
                             <select class="form-control" name="INVOICE_TYPE_LOOKUP_CODE" id="INVOICE_TYPE_LOOKUP_CODE" required="required">
                               <option value="" disabled selected>Select Invoice Type</option>
+                              <option value="PREPAYMENT">Prepayment</option>
                               <option value="EXPENSE REPORT">Expense Report</option>
-                              <option value="Mixed">Mixed</option>
+                              <option value="MIXED">Mixed</option>
                             </select> 
                         </div>
                       </div>

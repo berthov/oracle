@@ -18,9 +18,11 @@ $(document).ready(function() {
           if(response=='success'){
             window.location.href="../production/form_ap.php";
           }
+          else if (response=='successStaff'){
+            window.location.href="../production/form_ap.php"; 
+          }
           else {
             toastr.error('Wrong Password or Username');
-            // console.log(response);
           }
         }
       });  
