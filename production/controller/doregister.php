@@ -27,9 +27,9 @@
 			}
 
 			else {
+				$role = 'Staff';
 
-
-				$sql = "INSERT INTO employee (name, email, password, divisi , created_date) VALUES ('$usernameregister', '$emailregister', '$passwordregister' , '$divisi', '$created')";
+				$sql = "INSERT INTO employee (name, email, password, divisi , created_date, role) VALUES ('$usernameregister', '$emailregister', '$passwordregister' , '$divisi', '$created' , '$role')";
 	  			$result = mysqli_query($conn_php, $sql);
 
 				header("location: ../login.php");

@@ -32,15 +32,26 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     
                     <?php
-                      
+                      if ($_SESSION['userRole'] == "Staff"){
                       $sql = 
                       "SELECT aih.invoice_num , 
                        aih.invoice_type_lookup_code,
                        aih.creation_date
                        FROM ap_invoices_header aih
-                       WHERE created_by = '".$employee_id."'
+                       WHERE 
+                       created_by = '".$employee_id."' 
                        and status = 'P'
                        limit 5";
+                     } else if ($_SESSION['userRole'] == "Admin") {
+                      $sql = 
+                      "SELECT aih.invoice_num , 
+                       aih.invoice_type_lookup_code,
+                       aih.creation_date
+                       FROM ap_invoices_header aih
+                       WHERE 
+                       status = 'P'
+                       limit 5";
+                     }
                   
                         $result = $conn_php->query($sql);
                         while($row = $result->fetch_assoc()) {

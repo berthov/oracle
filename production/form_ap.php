@@ -295,7 +295,8 @@ $_SESSION['form_token'] = $form_token;
                         WHERE
                         adsa.distribution_set_id = adsl.distribution_set_id
                         AND adsl.dist_code_combination_id = gcc.code_combination_id
-                        AND adsa.description LIKE '%Biaya%'";                                 
+                        AND adsa.description LIKE '%Biaya%'
+                        and gcc.segment4 = '".$divisi."'";                                 
                         $result = oci_parse($conn,$sql);
                         oci_execute($result);
                         while($row = oci_fetch_array($result, OCI_ASSOC)) {

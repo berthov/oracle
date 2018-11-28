@@ -88,12 +88,13 @@ $_SESSION['form_token'] = $form_token;
                           <table id="datatable" class="table table-striped">
                             <thead>
                               <tr>
-                                <th>Invoice Date</th>
                                 <th>Invoice Number</th>
+                                <th>Invoice Date</th>
                                 <th>Invoice Type</th>
                                 <th>Amount</th>
                                 <th>Approval Date</th>
                                 <th>Status</th>
+                                <th>Detail</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -102,6 +103,7 @@ $_SESSION['form_token'] = $form_token;
 
                             $sql = 
                             "SELECT 
+                             AIH.INVOICE_ID,
                              AIH.INVOICE_DATE,
                              AIH.INVOICE_TYPE_LOOKUP_CODE,
                              AIH.INVOICE_NUM,
@@ -117,11 +119,18 @@ $_SESSION['form_token'] = $form_token;
                             ?>
 
                             <tr>
-                              <td><?php echo date('d-M-Y',strtotime($row["INVOICE_DATE"])); ?></td>
                               <td><?php echo $row["INVOICE_NUM"]; ?></td>
+                              <td><?php echo date('d-M-Y',strtotime($row["INVOICE_DATE"])); ?></td>
                               <td><?php echo $row["INVOICE_TYPE_LOOKUP_CODE"]; ?></td>
                               <td>IDR <?php echo number_format($row["INVOICE_AMOUNT"]); ?></td>
-                              <td><?php echo date('d-M-Y',strtotime($row["APPROVAL_DATE"])); ?></td>
+                              <td><?php 
+                                  if ($row["STATUS"] === 'P') {
+                                    echo "Need Approval";
+                                  } else{
+                                    echo date('d-M-Y',strtotime($row["APPROVAL_DATE"]));
+                                  }
+                                  ?>  
+                              </td>
                               <td><strong>
                                 <?php 
                                   if ($row["STATUS"] === 'P') {
@@ -132,6 +141,7 @@ $_SESSION['form_token'] = $form_token;
                                 ?>
                                   
                                 </strong></td>
+                              <td><a href="invoice.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?> "><button class="btn btn-primary">View Detail</button></a></td>
                             </tr>
                             
                             <?php

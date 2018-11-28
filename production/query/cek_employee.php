@@ -24,11 +24,18 @@
 // END OF CEK DIVISI
 
 // CEK PENDING TRANSAKTI
-		$sql_count = 
-		"SELECT count(invoice_id) as count
-		FROM ap_invoices_header ai
-		where created_by = '".$employee_id."'
-		and status = 'P'";
+		if ($_SESSION['userRole'] == "Staff"){
+			$sql_count = 
+			"SELECT count(invoice_id) as count
+			FROM ap_invoices_header ai
+			where created_by = '".$employee_id."'
+			and status = 'P'";
+		} else if ($_SESSION['userRole'] == "Admin") {
+			$sql_count = 
+			"SELECT count(invoice_id) as count
+			FROM ap_invoices_header ai
+			where status = 'P'";
+		}
 
 		$result_count = mysqli_query($conn_php,$sql_count);
 		$existing_count = mysqli_fetch_assoc($result_count);

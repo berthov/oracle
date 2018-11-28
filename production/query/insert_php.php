@@ -21,7 +21,8 @@
 				GL_DATE,
 				ORG_ID,
 				TERMS_DATE,
-				STATUS)
+				STATUS,
+				COUNT_PRINT)
 		        VALUES
 		        ('".$INVOICE_ID."',
 		        '".$INVOICE_NUM."',
@@ -42,7 +43,8 @@
 		    	'".$GL_DATE_L."',
 		    	'".$ORG_ID."',
 		    	'".$TERMS_DATE_L."',
-		    	'P'
+		    	'P',
+		    	0
 		    	)";
 
 

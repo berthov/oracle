@@ -5,6 +5,7 @@ include("controller/session.php");
 include("controller/doconnect.php");   
 include("query/cek_employee.php");   
 
+$INVOICE_ID = $_REQUEST['INVOICE_ID']; 
 
 ?>
 
@@ -50,13 +51,14 @@ include("query/cek_employee.php");
             <!-- sidebar menu -->
             <?php
               if ($_SESSION['userRole'] == "Staff"){
-                session_destroy(); 
+                // session_destroy(); 
 
-                session_start();
-                $logout = true;
-                $_SESSION['logout'] = $logout;
+                // session_start();
+                // $logout = true;
+                // $_SESSION['logout'] = $logout;
                 
-                header("location: login.php"); 
+                // header("location: login.php"); 
+                include("view/side_bar_staff.php");
               } else if ($_SESSION['userRole'] == "Admin") {
                 include("view/side_bar.php");
               }
@@ -177,7 +179,7 @@ include("query/cek_employee.php");
                               $sql = 
                               "SELECT AIL.*
                                FROM ap_invoices_line AIL
-                               WHERE invoice_id = '114348'
+                               WHERE invoice_id = '".$INVOICE_ID."'
                                ";
                                 
                                 $amount_invoice = 0;
@@ -213,11 +215,46 @@ include("query/cek_employee.php");
 
                       <!-- this row will not appear when printing -->
                       <div class="row no-print">
-                        <div class="col-xs-12">
-                          <button class="btn btn-default" onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button> 
+                        
+                        <div class="col-xs-12 col-md-6">
+                          <div class="form-group">
+                            <form enctype="multipart/form-data" action="controller/upload.php" method="post">
+                              <input type="file" name="uploaded_file">
+                              <br>
+                              <button type="submit" value="Upload" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
+                            </form>
+                          </div>
                         </div>
-                      </div>
 
+                        <div class="col-xs-12 col-md-6" align="right">
+                          <!-- Small modal -->
+                          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-print"></i>Print</button>
+
+                          <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                              <div class="modal-content">
+
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                                  <h4 class="modal-title" id="myModalLabel2">Confirmation</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <p>Are You Sure Want To Print This Document ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary"  onclick="printDiv('printableArea')">Yes</button>
+                                  <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <!-- /modals -->
+                      </div>
                       <!-- /.row -->
                   </div>
                 </div>
@@ -243,7 +280,6 @@ include("query/cek_employee.php");
     <script src="../build/js/custom.min.js"></script>
 
     <script type="text/javascript">
-
       function printDiv(divName) {
            var printContents = document.getElementById(divName).innerHTML;
            var originalContents = document.body.innerHTML;
@@ -251,9 +287,8 @@ include("query/cek_employee.php");
            document.body.innerHTML = printContents;
 
            window.print();
-           document.body.innerHTML = originalContents;
-          
-           document.location.href = 'invoice.php';
+           document.body.innerHTML = originalContents;   
+           document.location.href = 'controller/docountinvoice.php?INVOICE_ID=<?php echo $INVOICE_ID ?>';
 
 
       }

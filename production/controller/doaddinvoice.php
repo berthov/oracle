@@ -3,6 +3,7 @@ session_start();
 include("doconnect.php");
 include("doconnect_php.php");
 include("session.php");
+include("../query/cek_employee.php");
 
 // HEADER
 $COUNTER = $_REQUEST['COUNTER']; 
