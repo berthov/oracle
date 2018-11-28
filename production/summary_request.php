@@ -93,6 +93,7 @@ $_SESSION['form_token'] = $form_token;
                                 <th>Invoice Type</th>
                                 <th>Amount</th>
                                 <th>Approval Date</th>
+                                <th>Requestor</th>
                                 <th>Status</th>
                                 <th>Detail</th>
                               </tr>
@@ -109,10 +110,13 @@ $_SESSION['form_token'] = $form_token;
                              AIH.INVOICE_NUM,
                              AIH.INVOICE_AMOUNT,
                              AIH.APPROVAL_DATE,
-                             AIH.STATUS
+                             AIH.STATUS,
+                             e.name
                              FROM 
-                             ap_invoices_header AIH
-                             WHERE AIH.CREATED_BY = '".$employee_id."'";
+                             ap_invoices_header AIH,
+                             employee e
+                             WHERE 
+                             e.employee_id = AIH.CREATED_BY";
                                                            
                               $result = $conn_php->query($sql);
                               while($row = $result->fetch_assoc()) {                               
@@ -131,6 +135,7 @@ $_SESSION['form_token'] = $form_token;
                                   }
                                   ?>  
                               </td>
+                              <td><?php echo $row["name"]; ?></td>
                               <td><strong>
                                 <?php 
                                   if ($row["STATUS"] === 'P') {
