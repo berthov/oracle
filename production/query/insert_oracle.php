@@ -1,4 +1,5 @@
 <?php
+	$SOURCE = "Web";
 	// INVOICE ID
 	$sql = 
 		"SELECT ap_invoices_interface_s.NEXTVAL as INVOICE_ID
@@ -72,11 +73,11 @@
 		        SYSDATE,
 		    	1154,
 		    	'".$SOURCE."',
-		    	(TO_DATE('".$GOODS_RECEIVED_DATE."', 'yyyy/mm/dd')),
-		    	(TO_DATE('".$INVOICE_RECEIVED_DATE."', 'yyyy/mm/dd')),
-		    	(TO_DATE('".$GL_DATE."', 'yyyy/mm/dd')),
+		    	(TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd')),
+		    	(TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd')),
+		    	(TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd')),
 		    	fnd_profile.VALUE('ORG_ID'),
-		    	(TO_DATE('".$TERMS_DATE."', 'yyyy/mm/dd'))
+		    	(TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd'))
 		    	)";
 
 

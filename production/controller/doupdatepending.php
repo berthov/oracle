@@ -5,6 +5,30 @@ include("session.php");
 include("doconnect.php");   
 include("../query/cek_employee.php");   
 
+$sql = "SELECT   aia.CREATION_DATE as CREATION_DATE,
+				 aia.INVOICE_NUM as INVOICE_NUM,
+				 aia.INVOICE_TYPE_LOOKUP_CODE as INVOICE_TYPE,
+				 (TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd')) as INVOICE_DATE,
+				 emp.name as EMP_NAME,
+				 aia.INVOICE_CURRENCY_CODE,
+				 aia.INVOICE_AMOUNT as INVOICE_AMOUNT,
+				 aia.STATUS as STATUS,
+				 aia.VENDOR_NAME,
+				 aia.VENDOR_SITE_CODE,
+				 aia.TERMS_NAME as TERMS_NAME
+			FROM ap_invoices_header aia,
+				 employee emp
+			WHERE aia.CREATED_BY = emp.employee_id
+				and aia.STATUS = 'P'";
+$sql_line = "SELECT aila.INVOICE_ID,
+				aila.AMOUNT,
+				aila.INVOICE_DATE,
+				aila.LINE_TYPE_LOOKUP_CODE,
+				aila.DISTRIBUTION_SET_ID,
+				aila.DESCRIPTION
+			FROM ap_invoices_line aila
+			WHERE 1 = 1";
+
 $id = $_REQUEST['id']; 
 $approve_date = date('Y-m-d');
 
@@ -17,4 +41,8 @@ if (mysqli_query($conn_php, $sql)) {
 		    echo "Error: " . $sql . "<br>" . mysqli_error($conn_php);
 		}
 
+		
+		// ORACLE		
+				include("../query/insert_oracle.php");
+		// END OF ORACLE
 ?>
