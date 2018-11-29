@@ -33,7 +33,7 @@ $id = $_REQUEST['id'];
 $approve_date = date('Y-m-d');
 
 $sql = "UPDATE ap_invoices_header SET STATUS='A', APPROVAL_DATE = '".$approve_date."', LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."' WHERE INVOICE_ID='".$id."'";
-
+$sql_line = "UPDATE ap_invoices_line SET LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."'";
 
 if (mysqli_query($conn_php, $sql)) {
 		    header("Location:../form_pending_req.php");

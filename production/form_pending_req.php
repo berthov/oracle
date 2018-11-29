@@ -89,11 +89,11 @@ $_SESSION['form_token'] = $form_token;
 													 emp.name as EMP_NAME,
 													 aia.INVOICE_AMOUNT as INVOICE_AMOUNT,
 													 aia.STATUS as STATUS,
-													 aia.INVOICE_ID as INVOICE_ID
+													 aia.INVOICE_ID as INVOICE_ID,
+													 aia.APPROVAL_DATE
 												FROM ap_invoices_header aia,
 													 employee emp
-												WHERE aia.CREATED_BY = emp.employee_id
-													and aia.STATUS = 'P'";
+												WHERE aia.CREATED_BY = emp.employee_id";
 												$result = $conn_php->query($sql);
 												$tmpCount = 0;
 												
@@ -110,32 +110,10 @@ $_SESSION['form_token'] = $form_token;
 														<td><?php echo $row["INVOICE_TYPE"];	?></td>
 														<td><?php echo $row["EMP_NAME"];	?></td>
 														<td><?php echo $row["INVOICE_AMOUNT"];	?></td>
-														<td>''</td>
+														<td><?php echo $row["APPROVAL_DATE"];	?></td>
 														<td><?php echo $row["STATUS"];	?></td>
-														<td><button class="btn btn-success" data-toggle="modal" data-target="#modal_pending_apprv">Approve</button>
-														<!-- Modal Pending Approve -->
-														<!-- Modal -->
-														<div id="modal_pending_apprv" class="modal fade" role="dialog">
-														  <div class="modal-dialog">
-
-															<!-- Modal content-->
-															<div class="modal-content">
-															  <div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-																<h4 class="modal-title">Warning!</h4>
-															  </div>
-															  <div class="modal-body">
-																<p>Are you sure to Approve this Invoice?</p>
-															  </div>
-															  <div class="modal-footer">
-																<a href="controller/doupdatepending.php?id=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success" > Yes</button></a>
-																<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-															  </div>
-															</div>
-
-														  </div>
-														</div>
-														<!-- Modal Pending Approve -->
+														<td><a href="submit.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success">Submit</button>
+														
 
 														
 													<?php
