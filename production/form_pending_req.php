@@ -93,7 +93,8 @@ $_SESSION['form_token'] = $form_token;
 													 aia.APPROVAL_DATE
 												FROM ap_invoices_header aia,
 													 employee emp
-												WHERE aia.CREATED_BY = emp.employee_id";
+												WHERE aia.CREATED_BY = emp.employee_id
+													AND aia.STATUS = 'P'";
 												$result = $conn_php->query($sql);
 												$tmpCount = 0;
 												
