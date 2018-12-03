@@ -210,9 +210,9 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
                         </div>
                         <!-- /.col -->
                       </div>
-					  <div class="col-xs-12 col-md-6" align="right">
+					  <div align="right">
                           <!-- Small modal -->
-                          <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-print"></i>Approve</button>
+                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_pending_apprv">Approve</button>
 
                           <!-- Modal Pending Approve -->
 														<!-- Modal -->
