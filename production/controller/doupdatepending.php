@@ -8,7 +8,6 @@ include("../query/cek_employee.php");
 $sql = "SELECT   aia.CREATION_DATE as CREATION_DATE,
 				 aia.INVOICE_NUM as INVOICE_NUM,
 				 aia.INVOICE_TYPE_LOOKUP_CODE as INVOICE_TYPE,
-				 (TO_DATE('".$INVOICE_DATE."', 'yyyy/mm/dd')) as INVOICE_DATE,
 				 emp.name as EMP_NAME,
 				 aia.INVOICE_CURRENCY_CODE,
 				 aia.INVOICE_AMOUNT as INVOICE_AMOUNT,
@@ -20,6 +19,7 @@ $sql = "SELECT   aia.CREATION_DATE as CREATION_DATE,
 				 employee emp
 			WHERE aia.CREATED_BY = emp.employee_id
 				and aia.STATUS = 'P'";
+
 $sql_line = "SELECT aila.INVOICE_ID,
 				aila.AMOUNT,
 				aila.INVOICE_DATE,
@@ -32,6 +32,8 @@ $sql_line = "SELECT aila.INVOICE_ID,
 $id = $_REQUEST['id']; 
 $approve_date = date('Y-m-d');
 
+// echo $id;
+
 $sql = "UPDATE ap_invoices_header SET STATUS='A', APPROVAL_DATE = '".$approve_date."', LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."' WHERE INVOICE_ID='".$id."'";
 $sql_line = "UPDATE ap_invoices_line SET LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."'";
 
@@ -43,6 +45,6 @@ if (mysqli_query($conn_php, $sql)) {
 
 		
 		// ORACLE		
-				include("../query/insert_oracle.php");
+				// include("../query/insert_oracle.php");
 		// END OF ORACLE
 ?>

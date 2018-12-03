@@ -6,6 +6,8 @@ include("controller/doconnect.php");
 include("query/cek_employee.php");   
 
 $INVOICE_ID = $_REQUEST['INVOICE_ID']; 
+$INVOICE_NUM = $_REQUEST['INVOICE_NUM'];
+
 
 ?>
 
@@ -20,8 +22,12 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
 
     <?php include("view/title.php"); ?>
 
+    <!-- Toastr -->
+    <link rel="stylesheet" href="../vendors/toastr/toastr.min.css">
+    <script src="../vendors/toastr/jquery-1.9.1.min.js"></script>
+    <script src="../vendors/toastr/toastr.min.js"></script>
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
@@ -216,17 +222,19 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
                       <!-- this row will not appear when printing -->
                       <div class="row no-print">
                         
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-6 col-md-6">
                           <div class="form-group">
                             <form enctype="multipart/form-data" action="controller/upload.php" method="post">
                               <input type="file" name="uploaded_file">
                               <br>
-                              <button type="submit" value="Upload" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
+                              <input type="hidden" name="INVOICE_NUM" value="<?php echo $INVOICE_NUM; ?>">
+                              <input type="hidden" name="INVOICE_ID" value="<?php echo $INVOICE_ID; ?>">
+                              <button type="submit" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
                             </form>
                           </div>
                         </div>
 
-                        <div class="col-xs-12 col-md-6" align="right">
+                        <div class="col-xs-6 col-md-6" align="right">
                           <!-- Small modal -->
                           <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-print"></i>Print</button>
 
@@ -237,14 +245,40 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
                                 <div class="modal-header">
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
                                   </button>
-                                  <h4 class="modal-title" id="myModalLabel2">Confirmation</h4>
+                                  <h4 class="modal-title" id="myModalLabel2">Confirmation &nbsp</h4>
                                 </div>
                                 <div class="modal-body">
                                   <p>Are You Sure Want To Print This Document ?</p>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary"  onclick="printDiv('printableArea')">Yes</button>
                                   <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                  <button type="button" class="btn btn-primary"  onclick="printDiv('printableArea')">Yes</button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xs-6 col-md-6" align="right">
+                          <!-- Small modal -->
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-times"></i> Cancel Invoice</button>
+
+                          <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                                  <h4 class="modal-title" id="myModalLabel2">Confirmation &nbsp</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <p>Are You Sure Want To Cancel This Document ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                                  <button type="button" class="btn btn-primary btnrefund" data-id="<?php echo $INVOICE_ID; ?>">Yes</button>                              
                                 </div>
 
                               </div>
@@ -278,6 +312,7 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script src="../production/common/error.js"></script>
 
     <script type="text/javascript">
       function printDiv(divName) {

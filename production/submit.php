@@ -87,7 +87,7 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
                       "SELECT 
                       AI.* 
                       FROM AP_INVOICES_HEADER AI
-                      where INVOICE_ID = '114348'
+                      where INVOICE_ID = '".$INVOICE_ID."'
                       ";
 
                       $result_invoice = mysqli_query($conn_php,$sql_invoice);
@@ -215,28 +215,28 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
                           <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_pending_apprv">Approve</button>
 
                           <!-- Modal Pending Approve -->
-														<!-- Modal -->
-														<div id="modal_pending_apprv" class="modal fade" role="dialog">
-														  <div class="modal-dialog">
+							<!-- Modal -->
+							<div id="modal_pending_apprv" class="modal fade" role="dialog">
+							  <div class="modal-dialog">
 
-															<!-- Modal content-->
-															<div class="modal-content">
-															  <div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-																<h4 class="modal-title">Warning!</h4>
-															  </div>
-															  <div class="modal-body">
-																<p>Are you sure to Approve this Invoice?</p>
-															  </div>
-															  <div class="modal-footer">
-																<a href="controller/doupdatepending.php?id=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success" > Yes</button></a>
-																<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-															  </div>
-															</div>
+								<!-- Modal content-->
+								<div class="modal-content">
+								  <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Warning!</h4>
+								  </div>
+								  <div class="modal-body">
+									<p>Are you sure to Approve this Invoice?</p>
+								  </div>
+								  <div class="modal-footer">
+									<a href="controller/doupdatepending.php?id=<?php echo $existing_invoice['INVOICE_ID'] ?>"><button class="btn btn-success" > Yes</button></a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+								  </div>
+								</div>
 
-														  </div>
-														</div>
-														<!-- Modal Pending Approve -->
+							  </div>
+							</div>
+							<!-- Modal Pending Approve -->
                         </div>
                       <!-- /.row -->
                     </section>

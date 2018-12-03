@@ -4,6 +4,7 @@ include("controller/doconnect_php.php");
 include("controller/session.php");
 include("controller/doconnect.php");   
 include("query/cek_employee.php");   
+// include("common/modal.php");
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
@@ -93,7 +94,7 @@ $_SESSION['form_token'] = $form_token;
                                 <th>Invoice Type</th>
                                 <th>Amount</th>
                                 <th>Approval Date</th>
-                                <th>Requestor</th>
+                                <!-- <th>Requestor</th> -->
                                 <th>Status</th>
                                 <th>Detail</th>
                               </tr>
@@ -135,35 +136,36 @@ $_SESSION['form_token'] = $form_token;
                                   }
                                   ?>  
                               </td>
-                              <td><?php echo $row["name"]; ?></td>
+                              <!-- <td><?php echo $row["name"]; ?></td> -->
                               <td><strong>
                                 <?php 
                                   if ($row["STATUS"] === 'P') {
                                     echo "Need Approval";
-                                  } else{
+                                  } else if ($row["STATUS"] === 'C') {
+                                    echo "Cancelled";
+                                  } 
+                                  else{
                                     echo "Approved";
                                   }
                                 ?>
                                   
                                 </strong></td>
-                              <td><a href="invoice.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?> "><button class="btn btn-primary">View Detail</button></a></td>
+                              <td><a href="invoice.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?>&INVOICE_NUM=<?php echo $row['INVOICE_NUM'] ?>"><button class="btn btn-primary">View Detail</button></a></td>
                             </tr>
-                            
+                                                    
                             <?php
-                            
                             }
                             
                             ?>
                             </tbody>
                           </table>
                         </div>
+
+
                     </div>
                 </div>
               </div>
-
-
             </div>
-
           </div>
         </div>
         <!-- /page content -->
@@ -181,8 +183,6 @@ $_SESSION['form_token'] = $form_token;
     <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>   
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.js"></script>
-
-    <script src="../production/common/error.js"></script>
 
   </body>
 </html>

@@ -120,5 +120,30 @@ $(document).ready(function() {
         }
     });
   });
+
+  $('.btnrefund').click(function() { 
+
+      INVOICE_ID = $(this).attr('data-id');
+
+      $.ajax({
+          type:'post',
+          url:'controller/cancelinvoice.php',
+          data:{
+           'INVOICE_ID':INVOICE_ID
+          },
+          success:function(response) {
+            if(response=='C'){
+              toastr.error('Invoice Already Cancelled');
+            }
+            else if(response=='A'){
+              toastr.error('Invoice Already Approved Cannot be Cancel, Please Contact Your Admin');
+            }
+            else{
+              window.location.href="../production/summary_request.php";
+              // console.log(response)
+            }
+          }
+        });  
+      });
       
 });
