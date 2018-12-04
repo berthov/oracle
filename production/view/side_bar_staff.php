@@ -7,7 +7,7 @@
                       <li><a href="form_ap.php">Request Expense</a></li>
                     </ul>
                   </li>
-                  <li><a href="summary_request.php"><i class="fa fa-search"></i> Summary Request </a>
+                  <li><a href="summary_request_staff.php"><i class="fa fa-search"></i> Summary Request </a>
                   </li>
                 </ul>
               </div>

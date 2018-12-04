@@ -16,7 +16,11 @@
       
       	$count = mysqli_num_rows($result);
       	
+
+  	
+
       	if($count == 1) {
+			$token1 = $usernamelogin;
         	$_SESSION['login_user'] = $usernamelogin;
         	$userRole = $row['role'];
         	$_SESSION['userRole'] = $userRole;
@@ -30,6 +34,21 @@
       	} else {
       		echo 'error';
      	}
+	}
+
+	// Generate token
+	function getToken($length){
+	 $token = "";
+	 $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	 $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+	 $codeAlphabet.= "0123456789";
+	 $max = strlen($codeAlphabet); // edited
+
+	 for ($i=0; $i < $length; $i++) {
+	  $token .= $codeAlphabet[random_int(0, $max-1)];
+	 }
+
+	 return $token;
 	}
 
 	if (isset($_REQUEST['logstate'])) {

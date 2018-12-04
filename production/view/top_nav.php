@@ -79,10 +79,31 @@
                     
                     <li>
                       <div class="text-center">
-                        <a>
+                        <?php 
+                        if ($_SESSION['userRole'] == "Staff"){
+                        
+                        ?>
+                        
+                        <a href="summary_request_staff.php">
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a>
+                        
+                        <?php
+                        
+                        }
+                        else if ($_SESSION['userRole'] == "Admin") {
+
+                        ?>
+                        
+                        <a href="summary_request.php">
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a> 
+
+                        <?php
+                        }
+                        ?>
                       </div>
                     </li>
                   </ul>
