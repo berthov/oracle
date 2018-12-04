@@ -93,7 +93,7 @@ $INVOICE_NUM = $_REQUEST['INVOICE_NUM'];
                       "SELECT 
                       AI.* 
                       FROM AP_INVOICES_HEADER AI
-                      where INVOICE_ID = '114348'
+                      where INVOICE_ID = '".$INVOICE_ID."'
                       ";
 
                       $result_invoice = mysqli_query($conn_php,$sql_invoice);
