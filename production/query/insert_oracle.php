@@ -1,5 +1,5 @@
 <?php
-	$SOURCE = "Web";
+	$SOURCE = "WEB";
 	// INVOICE ID
 	$sql = 
 		"SELECT ap_invoices_interface_s.NEXTVAL as INVOICE_ID
