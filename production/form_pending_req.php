@@ -90,7 +90,8 @@ $_SESSION['form_token'] = $form_token;
 													 aia.INVOICE_AMOUNT as INVOICE_AMOUNT,
 													 aia.STATUS as STATUS,
 													 aia.INVOICE_ID as INVOICE_ID,
-													 aia.APPROVAL_DATE
+													 aia.APPROVAL_DATE,
+													 aia.INVOICE_DATE
 												FROM ap_invoices_header aia,
 													 employee emp
 												WHERE aia.CREATED_BY = emp.employee_id
@@ -106,7 +107,7 @@ $_SESSION['form_token'] = $form_token;
 														?>
 														<tr>    
 														<td><?php echo $tmpCount;	?></td>
-														<td><?php echo $row["CREATION_DATE"];	?></td>
+														<td><?php echo $row["INVOICE_DATE"];	?></td>
 														<td><?php echo $row["INVOICE_NUM"];	?></td>
 														<td><?php echo $row["INVOICE_TYPE"];	?></td>
 														<td><?php echo $row["EMP_NAME"];	?></td>

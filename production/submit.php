@@ -229,7 +229,7 @@ $INVOICE_ID = $_REQUEST['INVOICE_ID'];
 									<p>Are you sure to Approve this Invoice?</p>
 								  </div>
 								  <div class="modal-footer">
-									<a href="controller/doupdatepending.php?id=<?php echo $existing_invoice['INVOICE_ID'] ?>"><button class="btn btn-success" > Yes</button></a>
+									<a href="controller/doupdatepending.php?id=<?php echo $existing_invoice['INVOICE_ID'] ?>&INVOICE_DATE=<?php echo $existing_invoice['INVOICE_DATE'] ?> "><button class="btn btn-success" > Yes</button></a>
 									<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 								  </div>
 								</div>

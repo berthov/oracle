@@ -29,22 +29,53 @@ $sql_line = "SELECT aila.INVOICE_ID,
 			FROM ap_invoices_line aila
 			WHERE 1 = 1";
 
+
+			
 $id = $_REQUEST['id']; 
 $approve_date = date('Y-m-d');
+$invoice_date = strtoupper(date('M-y', strtotime($_REQUEST['INVOICE_DATE'])));
 
-// echo $id;
+$sql_check = "SELECT CLOSING_STATUS
+		FROM GL_PERIOD_STATUSES  
+		WHERE PERIOD_NAME =  '".$invoice_date."'
+			AND APPLICATION_ID = 200";
 
-$sql = "UPDATE ap_invoices_header SET STATUS='A', APPROVAL_DATE = '".$approve_date."', LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."' WHERE INVOICE_ID='".$id."'";
-$sql_line = "UPDATE ap_invoices_line SET LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."'";
+ /* echo $invoice_date; */
 
-if (mysqli_query($conn_php, $sql)) {
+ 
+/* if (mysqli_query($conn_php, $sql)) {
 		    header("Location:../form_pending_req.php");
 		} else {
 		    echo "Error: " . $sql . "<br>" . mysqli_error($conn_php);
-		}
+		} */
 
 		
+
+		$result_status = oci_parse($conn,$sql_check);
+		oci_execute($result_status);
+		$existing_status = oci_fetch_assoc($result_status);
+		
+
+		if ($existing_status) { 
+		     if ($existing_status['CLOSING_STATUS'] != 'O') {
+		      echo "Payable period is not open";
+		    }
+					else{
+
+ 			$sql = "UPDATE ap_invoices_header SET STATUS='A', APPROVAL_DATE = '".$approve_date."', LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."' WHERE INVOICE_ID='".$id."'";
+			$sql_line = "UPDATE ap_invoices_line SET LAST_UPDATE_DATE = '".$approve_date."', LAST_UPDATED_BY = '".$employee_id."'";
+
+		mysqli_query($conn_php, $sql);
+		
+		mysqli_query($conn_php, $sql_line);
+		
+		
 		// ORACLE		
-				// include("../query/insert_oracle.php");
+				 include("../query/insert_oracle.php");
 		// END OF ORACLE
+		
+		header("Location:../form_pending_req.php");
+		}
+		}
+
 ?>
