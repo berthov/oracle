@@ -123,7 +123,7 @@ $_SESSION['form_token'] = $form_token;
 													echo "0 results";
 												}
 												?>
-								 </table>
+								</table>
 			</div>
           </div>
         </div>

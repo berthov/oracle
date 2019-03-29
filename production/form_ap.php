@@ -33,7 +33,7 @@ $_SESSION['form_token'] = $form_token;
     <!-- bootstrap-datetimepicker -->
     <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet"> 
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../build/css/custom.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -259,13 +259,14 @@ $_SESSION['form_token'] = $form_token;
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="../build/js/custom.js"></script>
 
     <script src="../production/common/error.js"></script>
 	
     <script type="text/javascript">
 
     $("#myDatepicker2").on("dp.keydown keypress keyup", false);
+
 
     function myDeleteFunction() {
         document.getElementById("myTable").deleteRow(1);

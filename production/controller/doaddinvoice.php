@@ -71,7 +71,7 @@ for($y = 0; $y < sizeof($COUNTER); $y++ ){
 		else{
 
 			// ORACLE		
-				include("../query/insert_oracle.php");
+				// include("../query/insert_oracle.php");
 			// END OF ORACLE
 
 			// PHP

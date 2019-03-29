@@ -96,7 +96,7 @@
 
                         ?>
                         
-                        <a href="summary_request.php">
+                        <a href="form_pending_req.php">
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a> 
