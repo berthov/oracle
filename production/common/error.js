@@ -19,7 +19,7 @@ $(document).ready(function() {
             window.location.href="../production/form_ap.php";
           }
           else if (response=='successStaff'){
-            window.location.href="../production/form_ap.php"; 
+            window.location.href="../production/audit_ar.php"; 
           }
           else {
             toastr.error('Wrong Password or Username');

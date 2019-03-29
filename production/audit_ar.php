@@ -7,10 +7,14 @@ include("query/cek_employee.php");
 
 if(isset($_REQUEST['START_DATE'])){
       $START_DATE = date("d-M-Y", strtotime($_REQUEST['START_DATE']));
+     }else{
+      $START_DATE = null;
      }
 
 if(isset($_REQUEST['END_DATE'])){
       $END_DATE = date("d-M-Y", strtotime($_REQUEST['END_DATE']));
+     }else{
+      $END_DATE = null;
      }
 
 
@@ -123,8 +127,8 @@ $_SESSION['form_token'] = $form_token;
                         </div>
                       <div class="form-group" style="padding-top: 100px;">
                         <div class="col-md-6 col-sm-6 col-xs-12" align="left">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button class="btn btn-danger" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                       </div>
 
@@ -140,9 +144,9 @@ $_SESSION['form_token'] = $form_token;
                                 <th>Do Date</th>
                                 <th>SI Number</th>
                                 <th>No Faktur Pajak</th>
-                                <!-- <th>Requestor</th> -->
                                 <th>Customer</th>
-                                <th>Upload</th>
+                                <th>Uploaded File</th>
+                                <th>View</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -150,54 +154,90 @@ $_SESSION['form_token'] = $form_token;
                             <?php
 
                             $sql = 
-                            "SELECT 
-                             AIH.INVOICE_ID,
-                             AIH.INVOICE_DATE,
-                             AIH.INVOICE_TYPE_LOOKUP_CODE,
-                             AIH.INVOICE_NUM,
-                             AIH.INVOICE_AMOUNT,
-                             AIH.APPROVAL_DATE,
-                             AIH.STATUS,
-                             e.name
-                             FROM 
-                             ap_invoices_header AIH,
-                             employee e
-                             WHERE 
-                             AIH.CREATED_BY = '".$employee_id."' 
-                             and e.employee_id = AIH.CREATED_BY";
+                            "SELECT DISTINCT
+                                NVL(RCTA.TRX_NUMBER,'REQ STOCK KEBUN/MANUAL') INV_NUM,
+                                NVL(rcta.attribute1,'Tidak Ada Faktur')  NO_FAKTUR,
+                                NVL(TO_CHAR(wndv.NAME),'Tidak Ada DO')  DO_NUM,
+                                TO_CHAR(wndv.initial_pickup_date,'DD/Mon/RRRR') DO_DATE,
+                                NVL(TO_CHAR(OOHV.ORDER_NUMBER),'Tidak Ada SO')  SO_NUMBER,
+                                trunc(oohv.creation_date)  SO_DATE,
+                                NVL(TO_CHAR(WDD.CUST_PO_NUMBER),'Tidak Ada PO') PO_Number,
+                                NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER
+                            FROM wsh_new_deliveries WNDV,
+                               wsh_delivery_details wdd,
+                                wsh_delivery_assignments wda,
+                               AP_SUPPLIERS APS,
+                               HZ_CUST_ACCOUNTS HCA,
+                               HZ_PARTIES HP,
+                               HZ_PARTY_SITES HPS,
+                               HZ_LOCATIONS HL,
+                               hz_cust_site_uses_all hcsua,
+                               hz_cust_acct_sites_all hcasa,
+                               MTL_SYSTEM_ITEMS_B MSIB,
+                               xxcba_sp3b_trx SPH,
+                               xxcba_sp3b_trx_lines SPL,
+                               OE_ORDER_HEADERS_ALL OOHV,
+                               OE_TRANSACTION_TYPES_VL OT,
+                               OE_ORDER_LINES_ALL OOLV,
+                               RA_CUSTOMER_TRX_ALL RCTA
+                            WHERE 
+                               WNDV.DELIVERY_ID(+) = WDA.DELIVERY_ID
+                               AND HCA.CUST_ACCOUNT_ID = WDD.CUSTOMER_ID
+                               AND HP.PARTY_ID = HCA.PARTY_ID
+                               AND wda.delivery_detail_id = wdd.delivery_detail_id
+                               AND WDD.SOURCE_HEADER_ID(+) = OOHV.HEADER_ID
+                               AND MSIB.INVENTORY_ITEM_ID = WDD.INVENTORY_ITEM_ID
+                               AND MSIB.ORGANIZATION_ID = WDD.ORGANIZATION_ID
+                               AND OOLV.HEADER_ID = OOHV.HEADER_ID
+                               AND OOLV.LINE_ID = WDD.SOURCE_LINE_ID
+                               AND HP.PARTY_ID = HPS.PARTY_ID
+                               AND HPS.location_id = HL.location_id
+                               AND WNDV.ULTIMATE_DROPOFF_LOCATION_ID = HL.LOCATION_ID
+                               AND hcsua.site_use_code = 'SHIP_TO'
+                               AND hcsua.cust_acct_site_id = hcasa.cust_acct_site_id
+                               AND hps.party_site_id = hcasa.party_site_id
+                               AND hcasa.cust_account_id = hca.cust_account_id
+                               AND APS.VENDOR_ID(+) = SPH.TRANS1_VENDOR_ID
+                               AND SPH.SP3B_TRX_ID(+) = SPL.SP3B_TRX_ID
+                               AND SPL.ORDER_LINE_ID(+) = OOLV.LINE_ID
+                               AND OOHV.ORDER_TYPE_ID = OT.TRANSACTION_TYPE_ID
+                               AND RCTA.INTERFACE_HEADER_ATTRIBUTE3(+) = WNDV.NAME
+                               AND RCTA.INTERFACE_HEADER_ATTRIBUTE1(+) = TO_CHAR(OOHV.ORDER_NUMBER)
+                               AND TO_date(wndv.initial_pickup_date) BETWEEN '".$START_DATE."' AND '".$END_DATE."' 
+                            ORDER BY 1 ASC";
                                                            
-                              $result = $conn_php->query($sql);
-                              while($row = $result->fetch_assoc()) {                               
+                              $result = oci_parse($conn,$sql);
+                              oci_execute($result);
+
+                              while($row = oci_fetch_array($result, OCI_ASSOC)) {                             
                             ?>
 
                             <tr>
-                              <td><?php echo $row["INVOICE_NUM"]; ?></td>
-                              <td><?php echo date('d-M-Y',strtotime($row["INVOICE_DATE"])); ?></td>
-                              <td><?php echo $row["INVOICE_TYPE_LOOKUP_CODE"]; ?></td>
-                              <td>IDR <?php echo number_format($row["INVOICE_AMOUNT"]); ?></td>
-                              <td><?php 
-                                  if ($row["STATUS"] === 'P') {
-                                    echo "Need Approval";
-                                  } else{
-                                    echo date('d-M-Y',strtotime($row["APPROVAL_DATE"]));
-                                  }
-                                  ?>  
-                              </td>
-                              <!-- <td><?php echo $row["name"]; ?></td> -->
-                              <td><strong>
-                                <?php 
-                                  if ($row["STATUS"] === 'P') {
-                                    echo "Need Approval";
-                                  } else if ($row["STATUS"] === 'C') {
-                                    echo "Cancelled";
-                                  } 
-                                  else{
-                                    echo "Approved";
-                                  }
+                              <td><?php echo $row["SO_NUMBER"]; ?></td>
+                              <td><?php echo $row["DO_NUM"]; ?></td>
+                              <td><?php echo $row["DO_DATE"]; ?></td>
+                              <td><?php echo $row["INV_NUM"]; ?></td>
+                              <td><?php echo $row["NO_FAKTUR"]; ?></td>
+                              <td><?php echo $row["NAMA_CUSTOMER"]; ?></td>
+                              <td align="center">
+                                <?php
+                                $flag = 0;
+                                  $SO_NUM = $row["SO_NUMBER"];
+                                  $dir = "uploads/$employee_name/$SO_NUM";
+
+                                  if (is_dir($dir)) {
+                                    if ($handle = opendir($dir)) {
+                                        while (false !== ($entry = readdir($handle))) {
+                                            if ($entry != "." && $entry != "..") {
+                                                $flag++;
+                                              }
+                                            }
+                                          }
+                                        }
+                                        echo $flag;
                                 ?>
-                                  
-                                </strong></td>
-                              <td><a href="upload_audit_AR.php?DO_ID=<?php echo $row['DO_ID'] ?>&DO_NUM=<?php echo $row['DO_NUM'] ?>"><button class="btn btn-primary">View Detail</button></a></td>
+                              </td>
+                              <td><a href="form_upload_audit_AR.php?SO_NUMBER=<?php echo $row['SO_NUMBER'] ?>"><button class="btn btn-primary">Upload</button></a></td>
                             </tr>
                                                     
                             <?php

@@ -4,15 +4,27 @@
 	$username	= "apps";
 	$password	= "apps";
 	
+	// $conn	= oci_connect($username, $password,'  (DESCRIPTION=
+ //    (ADDRESS=
+ //      (PROTOCOL=TCP)
+ //      (HOST=192.168.222.106)
+ //      (PORT=1531)
+ //    )
+ //    (CONNECT_DATA=
+ //      (SERVER=default)
+ //      (SERVICE_NAME=KING)
+ //    )
+ //  )');
+
 	$conn	= oci_connect($username, $password,'  (DESCRIPTION=
     (ADDRESS=
       (PROTOCOL=TCP)
-      (HOST=192.168.222.106)
-      (PORT=1531)
+      (HOST=192.168.222.104)
+      (PORT=1521)
     )
     (CONNECT_DATA=
       (SERVER=default)
-      (SERVICE_NAME=KING)
+      (SERVICE_NAME=PROD)
     )
   )');
 
