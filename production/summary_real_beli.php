@@ -7,10 +7,14 @@ include("query/cek_employee.php");
 
 if(isset($_REQUEST['START_DATE'])){
       $START_DATE = $_REQUEST['START_DATE'] ;
+	  }else{
+      $START_DATE = null;
      }
 
 if(isset($_REQUEST['END_DATE'])){
       $END_DATE = $_REQUEST['END_DATE'];
+	  }else{
+      $END_DATE = null;
      }
 	 
 
@@ -106,7 +110,7 @@ $_SESSION['form_token'] = $form_token;
 						
                           <div class="form-group">
                               <div class='input-group date' id='myDatepicker2'>
-                                  <input type='text' class="form-control" name="START_DATE" id="START_DATE" autocomplete="off" required="required" >
+                                  <input type='text' class="form-control" name="START_DATE" id="START_DATE" autocomplete="off" required="required" placeholder = <?php echo $START_DATE?> >
                                   <span class="input-group-addon">
                                      <span class="glyphicon glyphicon-calendar"></span>
                                   </span>
@@ -118,7 +122,7 @@ $_SESSION['form_token'] = $form_token;
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <div class="form-group">
                               <div class='input-group date' id='myDatepicker3'>
-                                  <input type='text' class="form-control" name="END_DATE" id="END_DATE" autocomplete="off" required="required">
+                                  <input type='text' class="form-control" name="END_DATE" id="END_DATE" autocomplete="off" required="required" placeholder = <?php echo $END_DATE?> >
                                   <span class="input-group-addon">
                                      <span class="glyphicon glyphicon-calendar"></span>
                                   </span>
