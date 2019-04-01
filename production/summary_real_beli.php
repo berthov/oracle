@@ -22,8 +22,6 @@ if(isset($_REQUEST['END_DATE'])){
 $newDate = date("d/M/Y", strtotime($START_DATE));
 $newDate2 = date("d/M/Y", strtotime($END_DATE));
 
-echo $newDate;
-echo $newDate2;
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
