@@ -114,7 +114,7 @@ $_SESSION['form_token'] = $form_token;
 														<td><?php echo $row["INVOICE_AMOUNT"];	?></td>
 														<td><?php echo $row["APPROVAL_DATE"];	?></td>
 														<td><?php echo $row["STATUS"];	?></td>
-														<td><a href="submit.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success">Submit</button>
+														<td><a href="submit.php?INVOICE_ID=<?php echo $row['INVOICE_ID'] ?>"><button class="btn btn-success">Submit</a></td></button>
 														
 													<?php
 													

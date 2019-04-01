@@ -58,7 +58,8 @@ $sql_check = "SELECT CLOSING_STATUS
 
 		if ($existing_status) { 
 		     if ($existing_status['CLOSING_STATUS'] != 'O') {
-		      echo "Payable period is not open";
+		      echo "Not in Open Period ";
+			  echo "Click <a href='".form_pending_req.php."'>here</a> to return";
 		    }
 					else{
 
