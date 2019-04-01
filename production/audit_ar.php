@@ -158,7 +158,7 @@ $_SESSION['form_token'] = $form_token;
                                 NVL(RCTA.TRX_NUMBER,'REQ STOCK KEBUN/MANUAL') INV_NUM,
                                 NVL(rcta.attribute1,'Tidak Ada Faktur')  NO_FAKTUR,
                                 NVL(TO_CHAR(wndv.NAME),'Tidak Ada DO')  DO_NUM,
-                                TO_CHAR(wndv.initial_pickup_date,'DD/Mon/RRRR') DO_DATE,
+                                TO_DATE(TO_CHAR(wndv.initial_pickup_date,'DD/Mon/RRRR')) DO_DATE,
                                 NVL(TO_CHAR(OOHV.ORDER_NUMBER),'Tidak Ada SO')  SO_NUMBER,
                                 trunc(oohv.creation_date)  SO_DATE,
                                 NVL(TO_CHAR(WDD.CUST_PO_NUMBER),'Tidak Ada PO') PO_Number,
@@ -204,6 +204,55 @@ $_SESSION['form_token'] = $form_token;
                                AND RCTA.INTERFACE_HEADER_ATTRIBUTE3(+) = WNDV.NAME
                                AND RCTA.INTERFACE_HEADER_ATTRIBUTE1(+) = TO_CHAR(OOHV.ORDER_NUMBER)
                                AND TO_date(wndv.initial_pickup_date) BETWEEN '".$START_DATE."' AND '".$END_DATE."' 
+                            UNION ALL
+                            SELECT DISTINCT 
+                            NVL(RCTA.TRX_NUMBER,'REQ STOCK KEBUN/MANUAL')  INV_NUM,
+                            NVL(rcta.attribute1,'Tidak Ada Faktur')  NO_FAKTUR,
+                            NVL(TO_CHAR(MTRHV.ATTRIBUTE15),'Tidak Ada DO')  DO_NUM,
+                            TRUNC(MTL.TRANSACTION_DATE) DO_DATE,
+                            NVL(TO_CHAR(MTRHV.ATTRIBUTE1),'Tidak Ada SO')  SO_NUMBER,
+                            trunc(sdd.creation_date)  SO_DATE,
+                            NVL(TO_CHAR(mtrhv.attribute2),'Tidak Ada PO') PO_Number,
+                            NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER
+                            FROM 
+                              ORG_ORGANIZATION_DEFINITIONS OOD,
+                                   hz_parties HP,
+                                   HZ_CUST_ACCOUNTS HCA,
+                                   MTL_SYSTEM_ITEMS_B MSIB,
+                                   MTL_TXN_REQUEST_HEADERS MTRHV,
+                                   MTL_TXN_REQUEST_LINES MTRLV,
+                                   MTL_TRANSACTION_TYPES MTT,
+                                   xxcba_sp3b_trx SPH,
+                                   xxcba_sf_dplan SDP,
+                                   xxcba_sf_dplan_dtl SDD,
+                                   xxcba_sp3b_trx_lines SPL,
+                                   AP_SUPPLIERS APS,
+                                   RA_CUSTOMER_TRX_ALL RCTA,
+                                   MTL_MATERIAL_TRANSACTIONS MTL
+                             WHERE     MTT.TRANSACTION_TYPE_NAME = 'Sales Order Salesforce'
+                                    AND MTT.TRANSACTION_TYPE_ID = MTRLV.TRANSACTION_TYPE_ID
+                                   AND APS.VENDOR_ID = SPH.TRANS1_VENDOR_ID
+                                   AND MTRLV.QUANTITY_DELIVERED IS NOT NULL
+                                   AND MTRLV.LINE_STATUS IN ('5', '6')
+                                   AND SPH.SP3B_TRX_ID = SPL.SP3B_TRX_ID
+                                   AND SDD.DEL_PLAN_ID = SDP.DEL_PLAN_ID
+                                   AND SPL.DEL_PLAN_ID = SDP.DEL_PLAN_ID
+                                   AND SPL.DEL_PLAN_DTL_ID = SDD.DEL_PLAN_DTL_ID
+                                   AND OOD.organization_id = SPH.TRANS1_FROM_ORG_ID
+                                   AND SDP.DO_PLAN_NO = MTRHV.REQUEST_NUMBER
+                                   AND SPH.TRANS1_FROM_ORG_ID = MTRHV.ORGANIZATION_ID
+                                   AND OOD.organization_id = MSIB.organization_id
+                                   AND MTRHV.HEADER_ID = MTRLV.HEADER_ID
+                                   AND MTRHV.ORGANIZATION_ID = MSIB.ORGANIZATION_ID(+)
+                                   AND MTRLV.INVENTORY_ITEM_ID = MSIB.INVENTORY_ITEM_ID(+)
+                                   AND MTRHV.ATTRIBUTE3 = HCA.ACCOUNT_NUMBER(+)
+                                   AND HCA.party_id = HP.party_id(+)
+                                   AND SDD.SF_ID = MTRLV.ATTRIBUTE1
+                                   AND MTRLV.UOM_CODE = SDD.UOM
+                                   AND RCTA.INTERFACE_HEADER_ATTRIBUTE3(+) = MTRHV.ATTRIBUTE15
+                                   AND RCTA.INTERFACE_HEADER_ATTRIBUTE1(+) = MTRHV.ATTRIBUTE15
+                                   AND MTRLV.LINE_ID = MTL.MOVE_ORDER_LINE_ID
+                                   AND TRUNC(MTL.TRANSACTION_DATE) BETWEEN '".$START_DATE."' AND '".$END_DATE."' 
                             ORDER BY 1 ASC";
                                                            
                               $result = oci_parse($conn,$sql);
