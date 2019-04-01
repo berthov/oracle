@@ -57,13 +57,6 @@ $dir = "uploads/$employee_name/$SO_NUMBER";
             <!-- sidebar menu -->
             <?php
               if ($_SESSION['userRole'] == "Staff"){
-                // session_destroy(); 
-
-                // session_start();
-                // $logout = true;
-                // $_SESSION['logout'] = $logout;
-                
-                // header("location: login.php"); 
                 include("view/side_bar_staff.php");
               } else if ($_SESSION['userRole'] == "Admin") {
                 include("view/side_bar.php");
@@ -81,36 +74,35 @@ $dir = "uploads/$employee_name/$SO_NUMBER";
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
-
             <div class="clearfix"></div>
-
             <div class="row">
               <div class="col-md-12">
                 <div class="x_panel">                    
                   <div class="x_content">
                   <div class="col-xs-12 col-md-12">
-                <?php
-                if (is_dir($dir)) {
-                  if ($handle = opendir($dir)) {
-                      while (false !== ($entry = readdir($handle))) {
-                          if ($entry != "." && $entry != "..") {
-                              echo "$entry\n";
-                ?>
-                <iframe src="uploads/benben/<?php echo $SO_NUMBER ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
-                <br><br>
-                <?php
+                  <?php
+                  
+                  if (is_dir($dir)) {
+                    if ($handle = opendir($dir)) {
+                        while (false !== ($entry = readdir($handle))) {
+                            if ($entry != "." && $entry != "..") {
+                                echo "$entry\n";
+                  ?>
+                  
+                  <iframe src="uploads/<?php echo $employee_name ?>/<?php echo $SO_NUMBER ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
+                  <br><br>
+
+                  <?php
+                          }
                         }
                       }
-                    }
-                    closedir($handle);
-                }
+                      closedir($handle);
+                  }
 
-                      ?>
+                  ?>
 
                   </div>                       
                     <div class="col-xs-6 col-md-6">
-
-
                       <div class="form-group">
                         <form enctype="multipart/form-data" action="controller/upload_audit_AR.php" method="post">
                           <input type="file" name="uploaded_file">

@@ -75,7 +75,13 @@ $_SESSION['form_token'] = $form_token;
             <br />
 
             <!-- sidebar menu -->
-            <?php include("view/side_bar.php"); ?>
+            <?php
+              if ($_SESSION['userRole'] == "Staff"){
+                include("view/side_bar_staff.php");
+              } else if ($_SESSION['userRole'] == "Admin") {
+                include("view/side_bar.php");
+              }
+            ?>
             <!-- /sidebar menu -->
 
           </div>
@@ -145,6 +151,8 @@ $_SESSION['form_token'] = $form_token;
                                 <th>Nomor PI</th>
                                 <th>Nomor Payment</th>
                                 <th>Nama Vendor</th>
+                                <th>Uploaded File</th>
+                                <th>View</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -216,14 +224,33 @@ $_SESSION['form_token'] = $form_token;
                               while($row = oci_fetch_array($result, OCI_ASSOC)) {
                               ?>
                               <tr>
-								  <td><?php echo $row["NOMOR_PR"]; ?></td>
-								  <td><?php echo $row["NOMOR_PO"]; ?></td>
-								  <td><?php echo date('d-M-Y',strtotime($row["RCV_DATE"])); ?></td>
-								  <td><?php echo $row["RECEIPT_NUMBER"]; ?></td>
-								  <td><?php echo $row["INVOICE_NUM"]; ?></td>
-								  <td><?php echo $row["PAY_NUM"]; ?></td>
-								  <td><?php echo $row["VENDOR_NAME"]; ?></td>
-							  </tr>
+            								  <td><?php echo $row["NOMOR_PR"]; ?></td>
+            								  <td><?php echo $row["NOMOR_PO"]; ?></td>
+            								  <td><?php echo date('d-M-Y',strtotime($row["RCV_DATE"])); ?></td>
+            								  <td><?php echo $row["RECEIPT_NUMBER"]; ?></td>
+            								  <td><?php echo $row["INVOICE_NUM"]; ?></td>
+            								  <td><?php echo $row["PAY_NUM"]; ?></td>
+            								  <td><?php echo $row["VENDOR_NAME"]; ?></td>
+                              <td align="center">
+                                <?php
+                                  $flag = 0;
+                                  $NOMOR_PR = $row["NOMOR_PR"];
+                                  $dir = "uploads/$employee_name/$NOMOR_PR";
+
+                                  if (is_dir($dir)) {
+                                    if ($handle = opendir($dir)) {
+                                        while (false !== ($entry = readdir($handle))) {
+                                            if ($entry != "." && $entry != "..") {
+                                                $flag++;
+                                              }
+                                            }
+                                          }
+                                        }
+                                        echo $flag;
+                                ?>
+                              </td>
+                              <td><a href="form_upload_audit_AP.php?NOMOR_PR=<?php echo $row['NOMOR_PR'] ?>"><button class="btn btn-primary">Upload</button></a></td>
+            							  </tr>
                               
                               <?php
                               }
