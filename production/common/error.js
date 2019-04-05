@@ -16,7 +16,7 @@ $(document).ready(function() {
         },
         success:function(response) {
           if(response=='success'){
-            window.location.href="../production/form_ap.php";
+            window.location.href="../production/audit_ar.php";
           }
           else if (response=='successStaff'){
             window.location.href="../production/audit_ar.php"; 
