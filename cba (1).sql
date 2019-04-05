@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2018 at 08:55 AM
+-- Generation Time: Apr 05, 2019 at 04:59 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `cba`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `approval_list_ap`
+--
+
+CREATE TABLE `approval_list_ap` (
+  `creation_date` date DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `last_update_by` varchar(255) DEFAULT NULL,
+  `last_update_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `approval_list_ar`
+--
+
+CREATE TABLE `approval_list_ar` (
+  `creation_date` date DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
+  `last_update_by` varchar(255) DEFAULT NULL,
+  `last_update_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -60,11 +86,12 @@ CREATE TABLE `ap_invoices_header` (
 --
 
 INSERT INTO `ap_invoices_header` (`INVOICE_ID`, `INVOICE_NUM`, `INVOICE_TYPE_LOOKUP_CODE`, `INVOICE_DATE`, `VENDOR_NAME`, `VENDOR_SITE_CODE`, `INVOICE_AMOUNT`, `INVOICE_CURRENCY_CODE`, `TERMS_NAME`, `SOURCE`, `GOODS_RECEIVED_DATE`, `INVOICE_RECEIVED_DATE`, `GL_DATE`, `ORG_ID`, `TERMS_DATE`, `LAST_UPDATE_DATE`, `LAST_UPDATED_BY`, `CREATION_DATE`, `CREATED_BY`, `STATUS`, `APPROVAL_DATE`, `COUNT_PRINT`, `LAST_PRINT_BY`, `LAST_PRINT_DATE`) VALUES
-(114348, '123123', 'EXPENSE REPORT', '2018-11-22', 'CBA EMPLOYEE', 'ANGGA', 123, 'IDR', '5 HARI', 'SALESFORCE', '2018-11-22', '2018-11-22', '2018-11-22', '81', '2018-11-22', '2018-11-28', '2', '2018-11-22', '2', 'P', '2018-11-23', 5, '2', '2018-11-28'),
-(114349, '123123123123123123', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ANDI SEDIO', 123, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-28', '2', '2018-11-23', '2', 'P', '2018-11-23', 1, '2', '2018-11-28'),
-(114350, '1344444', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ABDUL ROSYID', 45678, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-23', '2', '2018-11-23', '2', 'P', '2018-11-23', 0, '', NULL),
-(115301, '123123123', 'EXPENSE REPORT', '2018-11-28', 'CBA EMPLOYEE', 'BANGKA', 123, 'IDR', '5 HARI', 'WEB', '2018-11-28', '2018-11-28', '2018-11-28', '81', '2018-11-28', '2018-11-28', '2', '2018-11-28', '2', 'P', '0000-00-00', 0, '', NULL),
-(115302, '23123123', 'EXPENSE REPORT', '2018-11-28', 'CBA EMPLOYEE', 'BANJAR BARU', 123, 'IDR', '5 HARI', 'WEB', '2018-11-28', '2018-11-28', '2018-11-28', '81', '2018-11-28', '2018-11-28', '2', '2018-11-28', '2', 'P', '0000-00-00', 0, '', NULL);
+(114348, '123123', 'EXPENSE REPORT', '2018-11-22', 'CBA EMPLOYEE', 'ANGGA', 123, 'IDR', '5 HARI', 'SALESFORCE', '2018-11-22', '2018-11-22', '2018-11-22', '81', '2018-11-22', '2018-12-04', '2', '2018-11-22', '2', 'C', '2018-11-23', 8, '2', '2018-12-04'),
+(114349, '123123123123123123', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ANDI SEDIO', 123, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-12-03', '2', '2018-11-23', '2', 'A', '2018-12-03', 1, '2', '2018-11-28'),
+(114350, '1344444', 'EXPENSE REPORT', '2018-11-23', 'CBA EMPLOYEE', 'ABDUL ROSYID', 45678, 'IDR', '5 HARI', 'WEB', '2018-11-23', '2018-11-23', '2018-11-23', '81', '2018-11-23', '2018-11-29', '2', '2018-11-23', '2', 'C', '2018-11-23', 0, '', NULL),
+(115301, '123123123', 'EXPENSE REPORT', '2018-11-28', 'CBA EMPLOYEE', 'BANGKA', 123, 'IDR', '5 HARI', 'WEB', '2018-11-28', '2018-11-28', '2018-11-28', '81', '2018-11-28', '2018-12-10', '3', '2018-11-28', '2', 'A', '2018-12-10', 0, '', NULL),
+(115302, '23123123', 'EXPENSE REPORT', '2018-11-28', 'CBA EMPLOYEE', 'BANJAR BARU', 123, 'IDR', '5 HARI', 'WEB', '2018-11-28', '2018-11-28', '2018-11-28', '81', '2018-11-28', '2018-11-28', '2', '2018-11-28', '2', 'P', '0000-00-00', 0, '', NULL),
+(117300, '7543', 'EXPENSE REPORT', '2018-12-04', 'CBA EMPLOYEE', 'BAMBANG DWI D', 3, 'IDR', '5 HARI', 'Web', '2018-12-04', '2018-12-04', '2018-12-04', '81', '2018-12-04', '2018-12-04', '3', '2018-12-04', '3', 'P', '0000-00-00', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,11 +119,12 @@ CREATE TABLE `ap_invoices_line` (
 --
 
 INSERT INTO `ap_invoices_line` (`INVOICE_ID`, `LINE_NUMBER`, `LINE_TYPE_LOOKUP_CODE`, `AMOUNT`, `ACCOUNTING_DATE`, `DESCRIPTION`, `DISTRIBUTION_SET_ID`, `CREATION_DATE`, `CREATED_BY`, `LAST_UPDATE_DATE`, `LAST_UPDATED_BY`, `INVOICE_LINE_ID`) VALUES
-(114348, 1, 'ITEM', 123, '2018-11-22', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-22', '1154', '2018-11-22', '1154', 1),
-(114349, 1, 'ITEM', 123, '2018-11-23', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-23', '1154', '2018-11-23', '1154', 2),
-(114350, 1, 'ITEM', 45678, '2018-11-23', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-23', '1154', '2018-11-23', '1154', 3),
-(115301, 1, 'ITEM', 123, '2018-11-28', 'Biaya Lain-Lain , IT', 10805, '2018-11-28', '', '2018-11-28', '', 4),
-(115302, 1, 'ITEM', 123, '2018-11-28', 'Biaya Lain-Lain , IT', 10805, '2018-11-28', '2', '2018-11-28', '2', 5);
+(114348, 1, 'ITEM', 123, '2018-11-22', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-22', '1154', '2018-12-10', '3', 1),
+(114349, 1, 'ITEM', 123, '2018-11-23', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-23', '1154', '2018-12-10', '3', 2),
+(114350, 1, 'ITEM', 45678, '2018-11-23', 'Biaya Pendidikan & Pelatihan, Training Center', 11000, '2018-11-23', '1154', '2018-12-10', '3', 3),
+(115301, 1, 'ITEM', 123, '2018-11-28', 'Biaya Lain-Lain , IT', 10805, '2018-11-28', '', '2018-12-10', '3', 4),
+(115302, 1, 'ITEM', 123, '2018-11-28', 'Biaya Lain-Lain , IT', 10805, '2018-11-28', '2', '2018-12-10', '3', 5),
+(117300, 1, 'ITEM', 3, '2018-12-04', 'Biaya Lain-Lain , IT', 10805, '2018-12-04', '3', '2018-12-10', '3', 6);
 
 -- --------------------------------------------------------
 
@@ -119,8 +147,9 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`employee_id`, `name`, `password`, `email`, `divisi`, `created_date`, `role`) VALUES
-(2, 'asdasdasd', '7815696ecbf1c96e6894b779456d330e', 'asd@asd', '207', '2018-11-22', 'Staff'),
-(3, 'ben', '7815696ecbf1c96e6894b779456d330e', 'asd@asdasd', '207', '2018-11-23', 'Admin');
+(3, 'ben', '7815696ecbf1c96e6894b779456d330e', 'asd@asdasd', '207', '2018-11-23', 'Staff'),
+(6, 'Indah', '81dc9bdb52d04dc20036dbd8313ed055', 'indah_it@cbachemical.com', '207', '2019-04-02', 'Staff'),
+(7, 'indah123', '202cb962ac59075b964b07152d234b70', 'indah@gmail.com', '207', '2019-04-04', 'Staff');
 
 --
 -- Indexes for dumped tables
@@ -146,13 +175,13 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `ap_invoices_line`
 --
 ALTER TABLE `ap_invoices_line`
-  MODIFY `INVOICE_LINE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `INVOICE_LINE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `employee_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
