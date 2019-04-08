@@ -34,20 +34,16 @@
                     <?php
                       if ($_SESSION['userRole'] == "Staff"){
                       $sql = 
-                      "SELECT aih.invoice_num , 
-                       aih.invoice_type_lookup_code,
-                       aih.creation_date
-                       FROM ap_invoices_header aih
+                      "SELECT *
+                       FROM approval_list_ar ala
                        WHERE 
                        created_by = '".$employee_id."' 
                        and status = 'P'
                        limit 5";
                      } else if ($_SESSION['userRole'] == "Admin") {
                       $sql = 
-                      "SELECT aih.invoice_num , 
-                       aih.invoice_type_lookup_code,
-                       aih.creation_date
-                       FROM ap_invoices_header aih
+                      "SELECT *
+                       FROM approval_list_ar ala
                        WHERE 
                        status = 'P'
                        limit 5";
@@ -63,10 +59,24 @@
                         <span class="image"><img src="images/user.png" alt="Profile Image" /></span>
                         <span>
                           <span><?php echo $user_check ?></span>
-                          <span class="time"> <?php echo round(abs($today - $creation_date) / 60/60,2); ?> Hours ago</span>
+                          <span class="time"> <?php echo round(abs($today - $creation_date) / 60/60,1); ?> Hours ago</span>
                         </span>
                         <span class="message">
-                          <?php echo "Need Approval "; echo $row["invoice_type_lookup_code"]; echo " : "; echo $row["invoice_num"]; ?>
+                          <?php 
+  
+                           if ($_SESSION['userRole'] == "Staff"){
+                            echo "Approval Pending : ";
+                            echo $row["so_number"]; echo "<br>";
+                            echo "File Name : ";
+                            echo $row["file_name"];
+                          } else if ($_SESSION['userRole'] == "Admin") {
+                            echo "Need Approval Untuk SO : ";
+                            echo $row["so_number"]; echo "<br>";
+                            echo "File Name : ";
+                            echo $row["file_name"];
+                          }
+
+                          ?>
                         </span>
                       </a>
                     </li>
@@ -84,7 +94,7 @@
                         
                         ?>
                         
-                        <a href="summary_request_staff.php">
+                        <a href="approval_pending_staff.php">
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a>
@@ -96,7 +106,7 @@
 
                         ?>
                         
-                        <a href="form_pending_req.php">
+                        <a href="approval_pending_admin.php">
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a> 

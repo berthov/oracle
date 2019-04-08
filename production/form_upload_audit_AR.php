@@ -6,8 +6,10 @@ include("controller/doconnect.php");
 include("query/cek_employee.php");   
 
 $SO_NUMBER = $_REQUEST['SO_NUMBER']; 
+$SO_DATE = $_REQUEST['SO_DATE']; 
+$SO_ID = $_REQUEST['SO_ID']; 
 
-$dir = "uploads/$employee_name/$SO_NUMBER";
+$dir = "uploads/AR/$SO_NUMBER";
 
 ?>
 
@@ -34,13 +36,13 @@ $dir = "uploads/$employee_name/$SO_NUMBER";
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     
     <!-- Custom styling plus plugins -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../build/css/custom.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
               <?php include("view/home.php"); ?>
@@ -86,10 +88,52 @@ $dir = "uploads/$employee_name/$SO_NUMBER";
                     if ($handle = opendir($dir)) {
                         while (false !== ($entry = readdir($handle))) {
                             if ($entry != "." && $entry != "..") {
-                                echo "$entry\n";
+                                echo "Nama File :"; echo " $entry\n";
+                  ?>
+                  <br>
+                  
+                  <?php
+
+                    $myFile  = "../uploads/AR/$SO_NUMBER/$entry";
+                    
+                    $sql_file = 
+                      "SELECT 
+                      ala.* 
+                      FROM approval_list_ar ala
+                      where so_number = '".$SO_NUMBER."'
+                      and file_name = '".$entry."'
+                      and status <> 'DELETED'
+                      ";
+
+                      $result_file = mysqli_query($conn_php,$sql_file);
+                      $existing_file = mysqli_fetch_assoc($result_file);
+
+                      if ($existing_file['status'] === 'P') {
                   ?>
                   
-                  <iframe src="uploads/<?php echo $employee_name ?>/<?php echo $SO_NUMBER ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
+                      <button class="btn btn-warning">Waiting For Approval</button>
+                  
+                  <?php    
+                  
+                      }
+                      else if ($existing_file['status'] === 'A') {
+                  
+                  ?>
+                      <a href="controller/delete_file_ar.php?id=<?php echo $existing_file['id'] ?>&myFile=<?php echo $myFile ?>&SO_NUMBER=<?php echo $SO_NUMBER; ?>&SO_ID=<?php echo $SO_ID ?>&SO_DATE=<?php echo $SO_DATE; ?>"><button class="btn btn-danger">Delete</button></a>
+                  
+                  <?php
+                  
+                      }
+                      else{
+                  ?>
+                      <a href="controller/request_delete_ar.php?SO_NUMBER=<?php echo $SO_NUMBER; ?>&FILE_NAME=<?php echo $entry; ?>&SO_DATE=<?php echo $SO_DATE; ?>&SO_ID=<?php echo $SO_ID ?>"><button class="btn btn-primary">Request Delete</button></a>                      
+                  <?php
+                  
+                      }
+                  
+                  ?>
+
+                  <iframe src="uploads/AR/<?php echo $SO_NUMBER ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
                   <br><br>
 
                   <?php
@@ -100,7 +144,6 @@ $dir = "uploads/$employee_name/$SO_NUMBER";
                   }
 
                   ?>
-
                   </div>                       
                     <div class="col-xs-6 col-md-6">
                       <div class="form-group">

@@ -162,7 +162,8 @@ $_SESSION['form_token'] = $form_token;
                                 NVL(TO_CHAR(OOHV.ORDER_NUMBER),'Tidak Ada SO')  SO_NUMBER,
                                 trunc(oohv.creation_date)  SO_DATE,
                                 NVL(TO_CHAR(WDD.CUST_PO_NUMBER),'Tidak Ada PO') PO_Number,
-                                NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER
+                                NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER,
+                                OOHV.HEADER_ID SO_ID
                             FROM wsh_new_deliveries WNDV,
                                wsh_delivery_details wdd,
                                 wsh_delivery_assignments wda,
@@ -213,7 +214,8 @@ $_SESSION['form_token'] = $form_token;
                             NVL(TO_CHAR(MTRHV.ATTRIBUTE1),'Tidak Ada SO')  SO_NUMBER,
                             trunc(sdd.creation_date)  SO_DATE,
                             NVL(TO_CHAR(mtrhv.attribute2),'Tidak Ada PO') PO_Number,
-                            NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER
+                            NVL(HP.PARTY_NAME,'Tidak Ada Customer') NAMA_CUSTOMER,
+                            MTRHV.HEADER_ID SO_ID
                             FROM 
                               ORG_ORGANIZATION_DEFINITIONS OOD,
                                    hz_parties HP,
@@ -272,7 +274,7 @@ $_SESSION['form_token'] = $form_token;
                                 <?php
                                 $flag = 0;
                                   $SO_NUM = $row["SO_NUMBER"];
-                                  $dir = "uploads/$employee_name/$SO_NUM";
+                                  $dir = "uploads/AR/$SO_NUM";
 
                                   if (is_dir($dir)) {
                                     if ($handle = opendir($dir)) {
@@ -286,7 +288,7 @@ $_SESSION['form_token'] = $form_token;
                                         echo $flag;
                                 ?>
                               </td>
-                              <td><a href="form_upload_audit_AR.php?SO_NUMBER=<?php echo $row['SO_NUMBER'] ?>"><button class="btn btn-primary">Upload</button></a></td>
+                              <td><a href="form_upload_audit_AR.php?SO_NUMBER=<?php echo $row['SO_NUMBER'] ?>&SO_DATE=<?php echo $row['SO_DATE'] ?>&SO_ID=<?php echo $row['SO_ID'] ?>"><button class="btn btn-primary">Upload</button></a></td>
                             </tr>
                                                     
                             <?php

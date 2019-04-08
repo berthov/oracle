@@ -9,7 +9,7 @@
 		$passwordlogin = md5(mysqli_escape_string($conn_php, $_POST['password']));
 		$firstLogin = false;
 
-		$sql = "SELECT employee_id , role FROM employee WHERE BINARY name = '$usernamelogin' and password = '$passwordlogin'";
+		$sql = "SELECT employee_id , role FROM employee WHERE name = '$usernamelogin' and password = '$passwordlogin'";
 		$result = mysqli_query($conn_php,$sql);
 
       	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);

@@ -7,7 +7,7 @@ include("query/cek_employee.php");
 
 $NOMOR_PR = $_REQUEST['NOMOR_PR'];
 
-$dir = "uploads/$employee_name/$NOMOR_PR";
+$dir = "uploads/AP/$NOMOR_PR";
 
 /*		if (isset($_POST['remove_file']))
 		{
@@ -126,7 +126,7 @@ if(array_key_exists('remove_file',$_POST)){
                               if ($entry != "." && $entry != "..") {
                                   echo "$entry\n";
                   ?>
-                    <iframe src="uploads/<?php echo $employee_name ?>/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
+                    <iframe src="uploads/AP/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
                     <br><br>
                   <?php
                         }

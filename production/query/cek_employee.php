@@ -26,14 +26,14 @@
 // CEK PENDING TRANSAKTI
 		if ($_SESSION['userRole'] == "Staff"){
 			$sql_count = 
-			"SELECT count(invoice_id) as count
-			FROM ap_invoices_header ai
+			"SELECT count(id) as count
+			FROM approval_list_ar ala
 			where created_by = '".$employee_id."'
 			and status = 'P'";
 		} else if ($_SESSION['userRole'] == "Admin") {
 			$sql_count = 
-			"SELECT count(invoice_id) as count
-			FROM ap_invoices_header ai
+			"SELECT count(id) as count
+			FROM approval_list_ar ala
 			where status = 'P'";
 		}
 
@@ -42,5 +42,5 @@
 		$count = $existing_count['count'];
 // END OF CEK PENDING TRANSAKTI
 
-$today = strtotime(date('Y-m-d'));
+$today = strtotime(date('Y-m-d H:i:s'));
 ?>
