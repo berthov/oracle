@@ -9,6 +9,43 @@ $NOMOR_PR = $_REQUEST['NOMOR_PR'];
 
 $dir = "uploads/$employee_name/$NOMOR_PR";
 
+/*		if (isset($_POST['remove_file']))
+		{
+				$file_name = $_POST['$dir'];
+				
+				if (file_exist($file_name))
+				{
+					unlink($file_name);
+					echo 'File Deleted';
+				}else {
+					echo 'File Does Not Exist';
+				}
+		}
+*/
+
+function delete_directory($dir) {
+         if (is_dir($dir))
+           $handle = opendir($dir);
+     if (!$handle)
+          return false;
+     while($file = readdir($handle)) {
+           if ($file != "." && $file != "..") {
+                if (!is_dir($dir."/".$file))
+                     unlink($dir."/".$file);
+                else
+                     delete_directory($dir.'/'.$file);
+           }
+     }
+     closedir($handle);
+     rmdir($dir);
+     return true;
+	 
+	 
+}
+
+if(array_key_exists('remove_file',$_POST)){
+   delete_directory();
+}
 ?>
 
 <!DOCTYPE html>
@@ -109,6 +146,7 @@ $dir = "uploads/$employee_name/$NOMOR_PR";
                           <input type="hidden" name="NOMOR_PR" value="<?php echo $NOMOR_PR; ?>">
                           <input type="hidden" name="PR_ID" value="<?php echo $PR_ID; ?>">
                           <button type="submit" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
+						  <input type = "submit" name = "remove_file" value = "Delete File">
                         </form>
                       </div>
                     </div>
