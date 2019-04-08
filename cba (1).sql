@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2019 at 04:59 AM
+-- Generation Time: Apr 08, 2019 at 09:04 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -42,11 +42,28 @@ CREATE TABLE `approval_list_ap` (
 --
 
 CREATE TABLE `approval_list_ar` (
-  `creation_date` date DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
   `last_update_by` varchar(255) DEFAULT NULL,
-  `last_update_date` date DEFAULT NULL
+  `last_update_date` date DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `status` varchar(10) NOT NULL,
+  `so_number` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `approval_date` date DEFAULT NULL,
+  `so_date` date DEFAULT NULL,
+  `so_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `approval_list_ar`
+--
+
+INSERT INTO `approval_list_ar` (`creation_date`, `created_by`, `last_update_by`, `last_update_date`, `file_name`, `status`, `so_number`, `id`, `approval_date`, `so_date`, `so_id`) VALUES
+('2019-04-05 00:00:00', '3', '3', '2019-04-05', 'Invoice.pdf', 'DELETED', '190100042', 4, NULL, NULL, NULL),
+('2019-04-05 00:00:00', '3', '6', '2019-04-05', 'dokumen.pdf', 'DELETED', '180101916', 7, NULL, NULL, NULL),
+('2019-04-05 15:35:08', '6', '3', '2019-04-08', 'Invoice.pdf', 'DELETED', '180101916', 8, NULL, NULL, NULL),
+('2019-04-08 09:38:32', '3', '3', '2019-04-08', 'ascpug.pdf', 'DELETED', '180101916', 12, NULL, '2018-10-26', 565363);
 
 -- --------------------------------------------------------
 
@@ -148,12 +165,18 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`employee_id`, `name`, `password`, `email`, `divisi`, `created_date`, `role`) VALUES
 (3, 'ben', '7815696ecbf1c96e6894b779456d330e', 'asd@asdasd', '207', '2018-11-23', 'Staff'),
-(6, 'Indah', '81dc9bdb52d04dc20036dbd8313ed055', 'indah_it@cbachemical.com', '207', '2019-04-02', 'Staff'),
+(6, 'benben', '81dc9bdb52d04dc20036dbd8313ed055', 'indah_it@cbachemical.com', '207', '2019-04-02', 'Admin'),
 (7, 'indah123', '202cb962ac59075b964b07152d234b70', 'indah@gmail.com', '207', '2019-04-04', 'Staff');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `approval_list_ar`
+--
+ALTER TABLE `approval_list_ar`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ap_invoices_line`
@@ -170,6 +193,12 @@ ALTER TABLE `employee`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `approval_list_ar`
+--
+ALTER TABLE `approval_list_ar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ap_invoices_line`
