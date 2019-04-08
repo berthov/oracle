@@ -5,9 +5,9 @@
                   <!-- <li><a href="form_ap.php"><i class="fa fa-home"></i>Request Expense</a></li> -->
                  <!--  <li><a href="summary_request_staff.php"><i class="fa fa-search"></i> Summary Request </a>
                   </li> -->
-                  <li><a href="summary_real_beli.php"><i class="fa fa-search"></i> Audit Pembelian </a>
+                  <li><a href="summary_real_beli.php"><i class="fa fa-search"></i> Soft Copy Pembelian </a>
                   </li>
-                  <li><a href="audit_ar.php"><i class="fa fa-search"></i> Audit Penjualan </a>
+                  <li><a href="audit_ar.php"><i class="fa fa-search"></i> Soft Copy Penjualan </a>
                   </li>
                 </ul>
               </div>

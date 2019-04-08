@@ -15,18 +15,18 @@ if ($name === '') {
         	window.history.back();
           </script>';
 }
-else if (!file_exists("../uploads/$employee_name/$NOMOR_PR")) {
-	mkdir("../uploads/$employee_name/$NOMOR_PR", 0777, true);
+else if (!file_exists("../uploads/AP/$NOMOR_PR")) {
+	mkdir("../uploads/AP/$NOMOR_PR", 0777, true);
 
 
-	if (file_exists("../uploads/$employee_name/$NOMOR_PR/$name")) {
+	if (file_exists("../uploads/AP/$NOMOR_PR/$name")) {
 		echo '<script type="text/javascript">
 	        	alert("File Already Exist !");
 	        	window.history.back();
 	          </script>';
 	}else{
 
-		$target_dir = "../uploads/$employee_name/$NOMOR_PR/";
+		$target_dir = "../uploads/AP/$NOMOR_PR/";
 		$target_file = $target_dir . basename( $_FILES['uploaded_file']['name']);
 		if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $target_file)) {
 		      echo "The file ".  basename( $_FILES['uploaded_file']['name']). 
@@ -41,14 +41,14 @@ else if (!file_exists("../uploads/$employee_name/$NOMOR_PR")) {
 
 }else{
 
-	if (file_exists("../uploads/$employee_name/$NOMOR_PR/$name")) {
+	if (file_exists("../uploads/AP/$NOMOR_PR/$name")) {
 		echo '<script type="text/javascript">
 	        	alert("File Already Exist !");
 	        	window.history.back();
 	          </script>';
 	}else{
 
-		$target_dir = "../uploads/$employee_name/$NOMOR_PR/";
+		$target_dir = "../uploads/AP/$NOMOR_PR/";
 		$target_file = $target_dir . basename( $_FILES['uploaded_file']['name']);
 		if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $target_file)) {
 		      echo "The file ".  basename( $_FILES['uploaded_file']['name']). 
