@@ -4,7 +4,6 @@ include("controller/doconnect_php.php");
 include("controller/session.php");
 include("controller/doconnect.php");   
 include("query/cek_employee.php");   
-// include("common/modal.php");
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
@@ -36,7 +35,7 @@ $_SESSION['form_token'] = $form_token;
     <!-- Font Awesome -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.css" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">

@@ -36,7 +36,7 @@ $dir = "uploads/AR/$SO_NUMBER";
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     
     <!-- Custom styling plus plugins -->
-    <link href="../build/css/custom.css" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
