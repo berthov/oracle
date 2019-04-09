@@ -4,7 +4,6 @@ include("controller/doconnect_php.php");
 include("controller/session.php");
 include("controller/doconnect.php");   
 include("query/cek_employee.php");   
-// include("common/modal.php");
 
 $form_token = uniqid();
 $_SESSION['form_token'] = $form_token;
