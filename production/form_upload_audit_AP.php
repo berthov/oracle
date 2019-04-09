@@ -9,21 +9,18 @@ $NOMOR_PR = $_REQUEST['NOMOR_PR'];
 
 $dir = "uploads/AP/$NOMOR_PR";
 
-/*		if (isset($_POST['remove_file']))
+		if (isset($_POST['remove_file']))
 		{
-				$file_name = $_POST['$dir'];
+				$file_name = $_POST['dir1'];
 				
-				if (file_exist($file_name))
+				if (file_exists($file_name))
 				{
 					unlink($file_name);
-					echo 'File Deleted';
-				}else {
-					echo 'File Does Not Exist';
 				}
 		}
-*/
 
-function delete_directory($dir) {
+
+/*function delete_directory($dir) {
          if (is_dir($dir))
            $handle = opendir($dir);
      if (!$handle)
@@ -41,11 +38,8 @@ function delete_directory($dir) {
      return true;
 	 
 	 
-}
+}*/
 
-if(array_key_exists('remove_file',$_POST)){
-   delete_directory();
-}
 ?>
 
 <!DOCTYPE html>
@@ -128,6 +122,16 @@ if(array_key_exists('remove_file',$_POST)){
                   ?>
                     <iframe src="uploads/AP/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
                     <br><br>
+					
+					
+					
+					    <form enctype="multipart/form-data" action="form_upload_audit_AP.php" method="post">
+                          <input type="hidden" name="dir1" value="uploads/AP/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>">
+						  <input type="hidden" name="NOMOR_PR" value= <?php echo $NOMOR_PR ?>>
+                          <input type = "submit" name = "remove_file" value = "Delete File">
+						  
+                        </form>
+					
                   <?php
                         }
                       }
@@ -146,7 +150,7 @@ if(array_key_exists('remove_file',$_POST)){
                           <input type="hidden" name="NOMOR_PR" value="<?php echo $NOMOR_PR; ?>">
                           <input type="hidden" name="PR_ID" value="<?php echo $PR_ID; ?>">
                           <button type="submit" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
-						  <input type = "submit" name = "remove_file" value = "Delete File">
+						  
                         </form>
                       </div>
                     </div>

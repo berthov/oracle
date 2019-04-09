@@ -235,7 +235,7 @@ $_SESSION['form_token'] = $form_token;
                                 <?php
                                   $flag = 0;
                                   $NOMOR_PR = $row["NOMOR_PR"];
-                                  $dir = "uploads/$employee_name/$NOMOR_PR";
+                                  $dir = "uploads/AP/$NOMOR_PR";
 
                                   if (is_dir($dir)) {
                                     if ($handle = opendir($dir)) {
