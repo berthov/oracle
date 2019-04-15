@@ -160,63 +160,56 @@ $_SESSION['form_token'] = $form_token;
 							<?php
 
                             $sql = 
-                            "SELECT DISTINCT PRHA.SEGMENT1 NOMOR_PR,
-									PHV.SEGMENT1 NOMOR_PO,
-									RVTV.TRANSACTION_DATE RCV_DATE,
+                            "SELECT DISTINCT PRHA.SEGMENT1 PR_NUMBER,
+									POH.SEGMENT1 PO_NUMBER,
+									RT.TRANSACTION_DATE RCV_DATE,
 									RSH.RECEIPT_NUM RECEIPT_NUMBER,
-									AI.INVOICE_NUM INVOICE_NUM,
+									AIA.INVOICE_NUM INVOICE_NUM,
 									NVL(TO_CHAR(ACA.CHECK_NUMBER), 'NOT PAID') PAY_NUM,
-									PHV.VENDOR_NAME VENDOR_NAME
-							FROM PO_HEADERS_V PHV,
-								 PO_LINES_V PLV,
-								 PO_LINE_LOCATIONS_ALL PLLA,
-								 PO_DISTRIBUTIONS_ALL PDA,
-								 PO_REQ_DISTRIBUTIONS_ALL PRDA,
-								 PO_REQUISITION_LINES_ALL PRLA,
-								 PO_REQUISITION_HEADERS_ALL PRHA,
-								 RCV_VRC_TXS_V RVTV,
-								 RCV_SHIPMENT_HEADERS RSH,
-								 AP_INVOICES_V AI,
-								 AP_INVOICE_LINES_V AILA,
-								 AP_PAYMENT_SCHEDULES APS,
-								 AP_CHECKS_ALL ACA,
-								 AP_INVOICE_PAYMENTS_ALL AIPA,
-								 AP_VIEW_PREPAYS_V AVPV,
-								 ( 
-								  SELECT   TO_NUMBER (COUNT (SHIPMENT_LINE_ID)) A, SHIPMENT_LINE_ID
-									  FROM RCV_VRC_TXS_V rvtv1
-									 WHERE TRUNC (RVTV1.TRANSACTION_DATE) BETWEEN '".$newDate."'
-																			  AND '".$newDate2."'
-										   AND transaction_type != 'RETURN TO RECEIVING'
-								  GROUP BY SHIPMENT_LINE_ID) X
-							 WHERE  
-									TRUNC (RVTV.TRANSACTION_DATE) BETWEEN '".$newDate."' AND '".$newDate2."'
-									 AND PHV.PO_HEADER_ID = PLV.PO_HEADER_ID(+)
-									 AND PLLA.PO_LINE_ID(+) = PLV.PO_LINE_ID
-									 AND PLLA.LINE_LOCATION_ID = PDA.LINE_LOCATION_ID
-									 AND PDA.PO_HEADER_ID(+) = PLV.PO_HEADER_ID
-									 AND PDA.REQ_DISTRIBUTION_ID = PRDA.DISTRIBUTION_ID(+)
-									 AND PRDA.REQUISITION_LINE_ID = PRLA.REQUISITION_LINE_ID(+)
-									 AND PRLA.REQUISITION_HEADER_ID = PRHA.REQUISITION_HEADER_ID(+)
-									 AND RVTV.po_header_id(+) = PLV.po_header_id
-									 AND RSH.SHIPMENT_HEADER_ID(+) = RVTV.SHIPMENT_HEADER_ID
-									 AND RVTV.TRANSACTION_TYPE = 'DELIVER'
-									 AND AILA.PO_HEADER_ID(+) = PHV.PO_HEADER_ID
-									 AND AILA.RECEIPT_NUMBER = RSH.RECEIPT_NUM
-									 AND AILA.INVOICE_ID = AI.INVOICE_ID(+)
-									 AND APS.INVOICE_ID(+) = AI.INVOICE_ID
-									 AND AIPA.INVOICE_ID(+) = APS.INVOICE_ID
-									 AND ACA.CHECK_ID(+) = AIPA.CHECK_ID
-									 AND NVL (AI.APPROVAL_STATUS_LOOKUP_CODE, ' ') NOT IN ('CANCELLED')
-									 AND PDA.LINE_LOCATION_ID = RVTV.PO_LINE_LOCATION_ID(+)
-									 AND AI.INVOICE_ID = AVPV.INVOICE_ID(+)
-									 AND NVL (invoice_type_lookup_code, ' ') NOT IN ('PREPAYMENT')
-									 AND (XXCBA_CHECK_TRX (RVTV.TRANSACTION_TYPE, x.A) = 1)
-									 AND X.SHIPMENT_LINE_ID = RVTV.SHIPMENT_LINE_ID
-									 AND RSH.RECEIPT_NUM = AILA.RECEIPT_NUMBER(+)
-							ORDER BY PHV.SEGMENT1,
+									APS.VENDOR_NAME VENDOR_NAME
+							FROM PO_REQUISITION_HEADERS_ALL PRHA,
+								PO_REQUISITION_LINES_ALL PRLA,
+								PO_REQ_DISTRIBUTIONS_ALL PRDA,
+								PO_DISTRIBUTIONS_ALL PDA,
+								PO_HEADERS_ALL POH,
+								PO_LINES_ALL POL,
+								PO_LINE_LOCATIONS PLL,
+								AP_SUPPLIERS APS,
+								ORG_ORGANIZATION_DEFINITIONS OOD,
+								RCV_TRANSACTIONS RT,
+								RCV_SHIPMENT_HEADERS RSH,
+								AP_INVOICE_LINES_V AILA,
+								AP_INVOICES_ALL AIA,
+								AP_PAYMENT_SCHEDULES_ALL APSA,
+								AP_CHECKS_ALL ACA,
+								AP_INVOICE_PAYMENTS_ALL AIPA
+							WHERE TRUNC(RT.TRANSACTION_DATE) BETWEEN '".$newDate."' AND '".$newDate2."'
+								 AND PRHA.REQUISITION_HEADER_ID(+) = PRLA.REQUISITION_HEADER_ID
+								 AND PRLA.REQUISITION_LINE_ID(+) = PRDA.REQUISITION_LINE_ID
+								 AND PRDA.DISTRIBUTION_ID(+) = PDA.REQ_DISTRIBUTION_ID
+								 AND PDA.PO_HEADER_ID = POH.PO_HEADER_ID
+								 AND PDA.PO_LINE_ID = POL.PO_LINE_ID
+								 AND POH.VENDOR_ID = APS.VENDOR_ID(+)
+								 AND POH.PO_HEADER_ID = POL.PO_HEADER_ID
+								 and pda.LINE_LOCATION_ID(+) = pll.LINE_LOCATION_ID
+								 AND PLL.SHIP_TO_ORGANIZATION_ID = OOD.ORGANIZATION_ID(+)
+								 AND POL.PO_LINE_ID = RT.PO_LINE_ID(+)
+								 AND RT.SHIPMENT_HEADER_ID = RSH.SHIPMENT_HEADER_ID(+)
+								 AND AILA.PO_HEADER_ID(+) = POH.PO_HEADER_ID
+								 AND AILA.RECEIPT_NUMBER(+) = RSH.RECEIPT_NUM
+								 AND AILA.INVOICE_ID = AIA.INVOICE_ID(+)
+								 AND APSA.INVOICE_ID(+) = AIA.INVOICE_ID
+								 AND AIPA.INVOICE_ID(+) = APSA.INVOICE_ID
+								 AND ACA.CHECK_ID(+) = AIPA.CHECK_ID
+								 AND AP_INVOICES_PKG.GET_APPROVAL_STATUS (AIA.INVOICE_ID,
+																		   AIA.INVOICE_AMOUNT,
+																		   AIA.PAYMENT_STATUS_FLAG,
+																		   AIA.INVOICE_TYPE_LOOKUP_CODE) <> 'CANCELLED'
+								 AND RT.TRANSACTION_TYPE = 'DELIVER'
+								 AND NVL(POL.CANCEL_FLAG,0) <> 'Y'
+							ORDER BY POH.SEGMENT1,
 											RSH.RECEIPT_NUM,
-											AI.INVOICE_NUM";
+											AIA.INVOICE_NUM";
                                                            
                               $result = oci_parse($conn,$sql);
                                 oci_execute($result);
@@ -224,8 +217,8 @@ $_SESSION['form_token'] = $form_token;
                               while($row = oci_fetch_array($result, OCI_ASSOC)) {
                               ?>
                               <tr>
-            								  <td><?php echo $row["NOMOR_PR"]; ?></td>
-            								  <td><?php echo $row["NOMOR_PO"]; ?></td>
+            								  <td><?php echo $row["PR_NUMBER"]; ?></td>
+            								  <td><?php echo $row["PO_NUMBER"]; ?></td>
             								  <td><?php echo date('d-M-Y',strtotime($row["RCV_DATE"])); ?></td>
             								  <td><?php echo $row["RECEIPT_NUMBER"]; ?></td>
             								  <td><?php echo $row["INVOICE_NUM"]; ?></td>
@@ -234,8 +227,8 @@ $_SESSION['form_token'] = $form_token;
                               <td align="center">
                                 <?php
                                   $flag = 0;
-                                  $NOMOR_PR = $row["NOMOR_PR"];
-                                  $dir = "uploads/AP/$NOMOR_PR";
+                                  $PR_NUMBER = $row["PR_NUMBER"];
+                                  $dir = "uploads/AP/$PR_NUMBER";
 
                                   if (is_dir($dir)) {
                                     if ($handle = opendir($dir)) {
@@ -249,7 +242,7 @@ $_SESSION['form_token'] = $form_token;
                                         echo $flag;
                                 ?>
                               </td>
-                              <td><a href="form_upload_audit_AP.php?NOMOR_PR=<?php echo $row['NOMOR_PR'] ?>"><button class="btn btn-primary">Upload</button></a></td>
+                              <td><a href="form_upload_audit_AP.php?PR_NUMBER=<?php echo $row['PR_NUMBER'] ?>&PO_NUMBER=<?php echo $row['PO_NUMBER'] ?>&RCV_DATE=<?php echo $row['RCV_DATE'] ?>"><button class="btn btn-primary">Upload</button></a></td>
             							  </tr>
                               
                               <?php

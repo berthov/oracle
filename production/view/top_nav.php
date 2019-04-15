@@ -34,18 +34,29 @@
                     <?php
                       if ($_SESSION['userRole'] == "Staff"){
                       $sql = 
-                      "SELECT *
+                      "SELECT creation_date,so_number, file_name,last_update_date
                        FROM approval_list_ar ala
                        WHERE 
                        created_by = '".$employee_id."' 
                        and status = 'P'
+					   UNION
+					   SELECT creation_date,pr_number, file_name,last_update_date
+					   FROM approval_list_ap
+					   WHERE created_by = '".$employee_id."' 
+                       and status = 'P'
+					   order by last_update_date desc
                        limit 5";
                      } else if ($_SESSION['userRole'] == "Admin") {
                       $sql = 
-                      "SELECT *
+                      "SELECT creation_date,so_number, file_name,last_update_date
                        FROM approval_list_ar ala
                        WHERE 
                        status = 'P'
+					   UNION
+					   SELECT creation_date,pr_number, file_name,last_update_date
+					   FROM approval_list_ap
+					   WHERE status = 'P'
+					   order by last_update_date desc
                        limit 5";
                      }
                   
@@ -70,7 +81,7 @@
                             echo "File Name : ";
                             echo $row["file_name"];
                           } else if ($_SESSION['userRole'] == "Admin") {
-                            echo "Need Approval Untuk SO : ";
+                            echo "Need Approval Untuk Doc : ";
                             echo $row["so_number"]; echo "<br>";
                             echo "File Name : ";
                             echo $row["file_name"];

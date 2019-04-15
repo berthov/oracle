@@ -5,10 +5,13 @@ include("controller/session.php");
 include("controller/doconnect.php");   
 include("query/cek_employee.php");   
 
-$NOMOR_PR = $_REQUEST['NOMOR_PR'];
+$PR_NUMBER = $_REQUEST['PR_NUMBER'];
+$PO_NUMBER = $_REQUEST['PO_NUMBER'];
 
-$dir = "uploads/AP/$NOMOR_PR";
 
+
+$dir = "uploads/AP/$PR_NUMBER";
+/*
 		if (isset($_POST['remove_file']))
 		{
 				$file_name = $_POST['dir1'];
@@ -18,27 +21,9 @@ $dir = "uploads/AP/$NOMOR_PR";
 					unlink($file_name);
 				}
 		}
+*/
 
 
-/*function delete_directory($dir) {
-         if (is_dir($dir))
-           $handle = opendir($dir);
-     if (!$handle)
-          return false;
-     while($file = readdir($handle)) {
-           if ($file != "." && $file != "..") {
-                if (!is_dir($dir."/".$file))
-                     unlink($dir."/".$file);
-                else
-                     delete_directory($dir.'/'.$file);
-           }
-     }
-     closedir($handle);
-     rmdir($dir);
-     return true;
-	 
-	 
-}*/
 
 ?>
 
@@ -120,18 +105,57 @@ $dir = "uploads/AP/$NOMOR_PR";
                               if ($entry != "." && $entry != "..") {
                                   echo "$entry\n";
                   ?>
-                    <iframe src="uploads/AP/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
+				  
+				  <br>
+                    <?php
+
+                    $myFile  = "../uploads/AP/$PR_NUMBER/$entry";
+                    
+                    $sql_file = 
+                      "SELECT 
+                      alap.* 
+                      FROM approval_list_ap alap
+                      where pr_number = '".$PR_NUMBER."'
+                      and file_name = '".$entry."'
+                      and status <> 'DELETED'
+                      ";
+
+                      $result_file = mysqli_query($conn_php,$sql_file);
+                      $existing_file = mysqli_fetch_assoc($result_file);
+
+                      if ($existing_file['status'] === 'P') {
+                  ?>
+                  
+                      <button class="btn btn-warning">Waiting For Approval</button>
+                  
+                  <?php    
+                  
+                      }
+                      else if ($existing_file['status'] === 'A') {
+                  
+                  ?>
+                      <a href="controller/delete_file_ap.php?ap_approval_id=<?php echo $existing_file['ap_approval_id'] ?>&myFile=<?php echo $myFile ?>&PR_NUMBER=<?php echo $PR_NUMBER; ?>&PO_NUMBER=<?php echo $PO_NUMBER; ?>"><button class="btn btn-danger">Delete</button></a>
+                  
+                  <?php
+                  
+                      }
+                      else{
+                  ?>
+                      <a href="controller/request_delete_ap.php?PR_NUMBER=<?php echo $PR_NUMBER; ?>&FILE_NAME=<?php echo $entry; ?>&PO_NUMBER=<?php echo $PO_NUMBER; ?>"><button class="btn btn-primary">Request Delete</button></a>                      
+                  <?php
+                  
+                      }
+                  
+                  ?>
+					<iframe src="uploads/AP/<?php echo $PR_NUMBER ?>/<?php echo $entry ?>" style="width:100%; height:700px;" frameborder="0"></iframe>
                     <br><br>
 					
-					
-					
-					    <form enctype="multipart/form-data" action="form_upload_audit_AP.php" method="post">
-                          <input type="hidden" name="dir1" value="uploads/AP/<?php echo $NOMOR_PR ?>/<?php echo $entry ?>">
-						  <input type="hidden" name="NOMOR_PR" value= <?php echo $NOMOR_PR ?>>
+					<!-- <form enctype="multipart/form-data" action="form_upload_audit_AP.php" method="post">
+                          <input type="hidden" name="dir1" value="uploads/AP/<?php echo $PR_NUMBER ?>/<?php echo $entry ?>">
+						  <input type="hidden" name="PR_NUMBER" value= <?php echo $PR_NUMBER ?>>
                           <input type = "submit" name = "remove_file" value = "Delete File">
-						  
-                        </form>
-					
+						  </form> -->
+						
                   <?php
                         }
                       }
@@ -147,7 +171,8 @@ $dir = "uploads/AP/$NOMOR_PR";
                         <form enctype="multipart/form-data" action="controller/upload_audit_AP.php" method="post">
                           <input type="file" name="uploaded_file">
                           <br>
-                          <input type="hidden" name="NOMOR_PR" value="<?php echo $NOMOR_PR; ?>">
+                          <input type="hidden" name="PR_NUMBER" value="<?php echo $PR_NUMBER; ?>">
+						  <input type="hidden" name="PO_NUMBER" value="<?php echo $PO_NUMBER; ?>">
                           <input type="hidden" name="PR_ID" value="<?php echo $PR_ID; ?>">
                           <button type="submit" class="btn btn-default"><i class="fa fa-upload"> Upload </i></button>
 						  

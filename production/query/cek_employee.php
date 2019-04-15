@@ -26,14 +26,21 @@
 // CEK PENDING TRANSAKTI
 		if ($_SESSION['userRole'] == "Staff"){
 			$sql_count = 
-			"SELECT count(id) as count
-			FROM approval_list_ar ala
+			"SELECT alap.count_ap+count(id) as count
+			FROM approval_list_ar ala,
+				(SELECT count(ap_approval_id) count_ap
+					FROM approval_list_ap 
+					WHERE created_by = '".$employee_id."'
+					  and status = 'P' ) alap
 			where created_by = '".$employee_id."'
 			and status = 'P'";
 		} else if ($_SESSION['userRole'] == "Admin") {
 			$sql_count = 
-			"SELECT count(id) as count
-			FROM approval_list_ar ala
+			"SELECT alap.count_ap+count(id) as count
+			FROM approval_list_ar ala,
+				(SELECT count(ap_approval_id) count_ap
+					FROM approval_list_ap 
+					WHERE status = 'P' ) alap
 			where status = 'P'";
 		}
 
