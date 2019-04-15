@@ -5,6 +5,7 @@ include("session.php");
 include("../query/cek_employee.php");
 
 $SO_NUMBER = $_REQUEST['SO_NUMBER']; 
+$MYFILE = $_REQUEST['myFile']; 
 $SO_DATE = date("Y-m-d",strtotime($_REQUEST["SO_DATE"]));
 $SO_DATE_VAL = $_REQUEST["SO_DATE"];
 $SO_ID = $_REQUEST['SO_ID']; 
@@ -22,7 +23,8 @@ $LAST_UPDATE_DATE =  date("Y-m-d");
 		        creation_date,
 		        created_by,
 		        last_update_date,
-		        lasT_update_by)
+		        lasT_update_by,
+		        path)
 		        VALUES
 		        ('".$SO_ID."',
 		        '".$SO_NUMBER."',
@@ -32,7 +34,8 @@ $LAST_UPDATE_DATE =  date("Y-m-d");
 		    	'".$CREATION_DATE."',
 		    	'".$employee_id."',
 		    	'".$LAST_UPDATE_DATE."',
-		    	'".$employee_id."'
+		    	'".$employee_id."',
+		    	'".$MYFILE."'
 		    	)";
 
 
