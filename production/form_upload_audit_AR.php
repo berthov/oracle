@@ -115,18 +115,18 @@ $dir = "uploads/AR/$SO_NUMBER";
                   
                   <?php    
                   
-                      }
-                      else if ($existing_file['status'] === 'A') {
+                      // }
+                      // else if ($existing_file['status'] === 'A') {
                   
                   ?>
-                      <a href="controller/delete_file_ar.php?id=<?php echo $existing_file['id'] ?>&myFile=<?php echo $myFile ?>&SO_NUMBER=<?php echo $SO_NUMBER; ?>&SO_ID=<?php echo $SO_ID ?>&SO_DATE=<?php echo $SO_DATE; ?>"><button class="btn btn-danger">Delete</button></a>
+<!--                       <a href="controller/delete_file_ar.php?id=<?php echo $existing_file['id'] ?>&myFile=<?php echo $myFile ?>&SO_NUMBER=<?php echo $SO_NUMBER; ?>&SO_ID=<?php echo $SO_ID ?>&SO_DATE=<?php echo $SO_DATE; ?>"><button class="btn btn-danger">Delete</button></a> -->
                   
                   <?php
                   
                       }
                       else{
                   ?>
-                      <a href="controller/request_delete_ar.php?SO_NUMBER=<?php echo $SO_NUMBER; ?>&FILE_NAME=<?php echo $entry; ?>&SO_DATE=<?php echo $SO_DATE; ?>&SO_ID=<?php echo $SO_ID ?>"><button class="btn btn-primary">Request Delete</button></a>                      
+                      <a href="controller/request_delete_ar.php?SO_NUMBER=<?php echo $SO_NUMBER; ?>&FILE_NAME=<?php echo $entry; ?>&SO_DATE=<?php echo $SO_DATE; ?>&SO_ID=<?php echo $SO_ID ?>&myFile=<?php echo $myFile ?>"><button class="btn btn-primary">Request Delete</button></a>                      
                   <?php
                   
                       }
