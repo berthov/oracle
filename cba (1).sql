@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2019 at 09:04 AM
+-- Generation Time: Apr 22, 2019 at 04:53 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -32,8 +32,27 @@ CREATE TABLE `approval_list_ap` (
   `creation_date` date DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
   `last_update_by` varchar(255) DEFAULT NULL,
-  `last_update_date` date DEFAULT NULL
+  `last_update_date` date DEFAULT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `pr_number` int(20) NOT NULL,
+  `po_number` int(20) NOT NULL,
+  `ap_approval_id` int(20) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `delete_approval_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `approval_list_ap`
+--
+
+INSERT INTO `approval_list_ap` (`creation_date`, `created_by`, `last_update_by`, `last_update_date`, `file_name`, `pr_number`, `po_number`, `ap_approval_id`, `status`, `delete_approval_date`) VALUES
+('2019-04-15', '6', '6', '2019-04-15', 'Invoice SS.jpg', 1800604, 1802006, 1, 'DELETED', '2019-04-15'),
+('2019-04-15', '6', '6', '2019-04-15', 'Payment SS2.jpg', 1800930, 1801361, 2, 'DELETED', '2019-04-15'),
+('2019-04-15', '8', '6', '2019-04-15', '49046.jpg', 1800680, 1900026, 3, 'DELETED', '2019-04-15'),
+('2019-04-15', '6', '6', '2019-04-15', '49046.jpg', 1800604, 1802006, 4, 'DELETED', '2019-04-15'),
+('2019-04-15', '6', '6', '2019-04-15', 'Foto Lucu Banci Dan Bencong In Action3.jpg', 1800817, 1801181, 5, 'DELETED', '2019-04-15'),
+('2019-04-15', '6', '6', '2019-04-15', '49046.jpg', 1800817, 1801181, 6, 'P', '0000-00-00'),
+('2019-04-15', '6', '6', '2019-04-15', 'Foto Lucu Banci Dan Bencong In Action3.jpg', 1800604, 1802006, 7, 'P', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -52,18 +71,22 @@ CREATE TABLE `approval_list_ar` (
   `id` int(11) NOT NULL,
   `approval_date` date DEFAULT NULL,
   `so_date` date DEFAULT NULL,
-  `so_id` int(10) DEFAULT NULL
+  `so_id` int(10) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `approval_list_ar`
 --
 
-INSERT INTO `approval_list_ar` (`creation_date`, `created_by`, `last_update_by`, `last_update_date`, `file_name`, `status`, `so_number`, `id`, `approval_date`, `so_date`, `so_id`) VALUES
-('2019-04-05 00:00:00', '3', '3', '2019-04-05', 'Invoice.pdf', 'DELETED', '190100042', 4, NULL, NULL, NULL),
-('2019-04-05 00:00:00', '3', '6', '2019-04-05', 'dokumen.pdf', 'DELETED', '180101916', 7, NULL, NULL, NULL),
-('2019-04-05 15:35:08', '6', '3', '2019-04-08', 'Invoice.pdf', 'DELETED', '180101916', 8, NULL, NULL, NULL),
-('2019-04-08 09:38:32', '3', '3', '2019-04-08', 'ascpug.pdf', 'DELETED', '180101916', 12, NULL, '2018-10-26', 565363);
+INSERT INTO `approval_list_ar` (`creation_date`, `created_by`, `last_update_by`, `last_update_date`, `file_name`, `status`, `so_number`, `id`, `approval_date`, `so_date`, `so_id`, `path`) VALUES
+('2019-04-05 00:00:00', '3', '3', '2019-04-05', 'Invoice.pdf', 'DELETED', '190100042', 4, NULL, NULL, NULL, NULL),
+('2019-04-05 00:00:00', '3', '6', '2019-04-05', 'dokumen.pdf', 'DELETED', '180101916', 7, NULL, NULL, NULL, NULL),
+('2019-04-05 15:35:08', '6', '3', '2019-04-08', 'Invoice.pdf', 'DELETED', '180101916', 8, NULL, NULL, NULL, NULL),
+('2019-04-08 09:38:32', '3', '3', '2019-04-08', 'ascpug.pdf', 'DELETED', '180101916', 12, NULL, '2018-10-26', 565363, NULL),
+('2019-04-09 09:32:40', '3', '3', '2019-04-09', 'ascpug.pdf', 'DELETED', '190100041', 13, '2019-04-09', '2019-01-08', 668999, NULL),
+('2019-04-09 09:41:59', '3', '3', '2019-04-09', 'CIC_Application_Setup_Planning_Scheduling.pdf', 'DELETED', '190100041', 14, '2019-04-09', '2019-01-08', 668999, NULL),
+('2019-04-10 09:04:29', '3', '6', '2019-04-10', 'CIC_Application_Setup_Planning_Scheduling.pdf', 'DELETED', '190100041', 15, '2019-04-10', '2019-01-08', 668999, '../uploads/AR/190100041/CIC_Application_Setup_Planning_Scheduling.pdf');
 
 -- --------------------------------------------------------
 
@@ -173,6 +196,12 @@ INSERT INTO `employee` (`employee_id`, `name`, `password`, `email`, `divisi`, `c
 --
 
 --
+-- Indexes for table `approval_list_ap`
+--
+ALTER TABLE `approval_list_ap`
+  ADD PRIMARY KEY (`ap_approval_id`);
+
+--
 -- Indexes for table `approval_list_ar`
 --
 ALTER TABLE `approval_list_ar`
@@ -195,10 +224,16 @@ ALTER TABLE `employee`
 --
 
 --
+-- AUTO_INCREMENT for table `approval_list_ap`
+--
+ALTER TABLE `approval_list_ap`
+  MODIFY `ap_approval_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `approval_list_ar`
 --
 ALTER TABLE `approval_list_ar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `ap_invoices_line`
