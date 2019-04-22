@@ -224,25 +224,25 @@ $_SESSION['form_token'] = $form_token;
             								  <td><?php echo $row["INVOICE_NUM"]; ?></td>
             								  <td><?php echo $row["PAY_NUM"]; ?></td>
             								  <td><?php echo $row["VENDOR_NAME"]; ?></td>
-                              <td align="center">
-                                <?php
-                                  $flag = 0;
-                                  $PR_NUMBER = $row["PR_NUMBER"];
-                                  $dir = "uploads/AP/$PR_NUMBER";
+											  <td align="center">
+												<?php
+												  $flag = 0;
+												  $PR_NUMBER = $row["PR_NUMBER"];
+												  $dir = "uploads/AP/$PR_NUMBER";
 
-                                  if (is_dir($dir)) {
-                                    if ($handle = opendir($dir)) {
-                                        while (false !== ($entry = readdir($handle))) {
-                                            if ($entry != "." && $entry != "..") {
-                                                $flag++;
-                                              }
-                                            }
-                                          }
-                                        }
-                                        echo $flag;
-                                ?>
-                              </td>
-                              <td><a href="form_upload_audit_AP.php?PR_NUMBER=<?php echo $row['PR_NUMBER'] ?>&PO_NUMBER=<?php echo $row['PO_NUMBER'] ?>&RCV_DATE=<?php echo $row['RCV_DATE'] ?>"><button class="btn btn-primary">Upload</button></a></td>
+												  if (is_dir($dir)) {
+													if ($handle = opendir($dir)) {
+														while (false !== ($entry = readdir($handle))) {
+															if ($entry != "." && $entry != "..") {
+																$flag++;
+															  }
+															}
+														  }
+														}
+														echo $flag;
+												?>
+											  </td>
+                              <td><a href="form_upload_audit_AP.php?PR_NUMBER=<?php echo $row['PR_NUMBER'] ?>&PO_NUMBER=<?php echo $row['PO_NUMBER'] ?>&RCV_DATE=<?php echo $row['RCV_DATE'] ?>"><button class="btn btn-primary">View&Upload</button></a></td>
             							  </tr>
                               
                               <?php
