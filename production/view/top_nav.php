@@ -39,12 +39,12 @@
                        WHERE 
                        created_by = '".$employee_id."' 
                        and status = 'P'
-					   UNION
-					   SELECT creation_date,pr_number, file_name,last_update_date
-					   FROM approval_list_ap
-					   WHERE created_by = '".$employee_id."' 
+          					   UNION
+          					   SELECT creation_date,pr_number, file_name,last_update_date
+          					   FROM approval_list_ap
+          					   WHERE created_by = '".$employee_id."' 
                        and status = 'P'
-					   order by last_update_date desc
+          					   order by creation_date desc
                        limit 5";
                      } else if ($_SESSION['userRole'] == "Admin") {
                       $sql = 
@@ -52,11 +52,11 @@
                        FROM approval_list_ar ala
                        WHERE 
                        status = 'P'
-					   UNION
-					   SELECT creation_date,pr_number, file_name,last_update_date
-					   FROM approval_list_ap
-					   WHERE status = 'P'
-					   order by last_update_date desc
+          					   UNION
+          					   SELECT creation_date,pr_number, file_name,last_update_date
+          					   FROM approval_list_ap
+          					   WHERE status = 'P'
+          					   order by creation_date desc
                        limit 5";
                      }
                   
