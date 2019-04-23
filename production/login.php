@@ -12,7 +12,7 @@ include("controller/doconnect.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ayam Goreng</title>
+    <?php include("view/title.php"); ?>
     <!-- Toastr -->
     <link rel="stylesheet" href="../vendors/toastr/toastr.min.css">
     <script src="../vendors/toastr/jquery-1.9.1.min.js"></script>
